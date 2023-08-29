@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include "./cards.hpp"
 
+bool lClick, rClick;
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 480), "Test");
@@ -24,7 +26,7 @@ int main()
     std::vector<MakeCards> Cards;
     for (int i= 0; i < 63; i++){
             Cards.push_back({i,unoCards});
-            Cards[i].xPos = (i * 11) + 20 ;
+            Cards[i].xPos = (i * 11) + 60 ;
             Cards[i].yPos = 20 ;
             Cards[i].quickHide();
     }
@@ -34,7 +36,8 @@ int main()
     while (window.isOpen()){
 
         sf::Event event;
-        bool click = false;
+        lClick = false;
+        rClick = false;
         while (window.pollEvent(event)){
 
             if (event.type == sf::Event::Closed) {window.close();}
@@ -42,7 +45,12 @@ int main()
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                    click = true;
+                    lClick = true;
+
+                }
+                if (event.mouseButton.button == sf::Mouse::Right)
+                    {
+                    rClick = true;
 
                 }
             }
@@ -51,16 +59,25 @@ int main()
 
         }
 
-        if (click) {
+        if ((rClick)or(lClick)) {
             for (unsigned int i = Cards.size(); i > 0 ; ) {
                 i--;
-                bool clickoncards = (Cards[i].hitbox(mousePos)) and click;
-                if (clickoncards){
+                if (Cards[i].hitbox(mousePos)){
+
+                    if (lClick){
                     Cards[i].show();
                     Cards[i].initAnim(100,400+rand()%15,170 + rand()%13,17);
+                    }
+                    else{
+                        Cards[i].setCard(11);
+
+                    }
+
+
                     Cards.push_back(Cards[i]);
                     Cards.erase(Cards.begin()+i);
                     break;
+
                 }
             }
         }
