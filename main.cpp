@@ -66,13 +66,14 @@ int main()
 
                     if (lClick){
                     Cards[i].show();
+                    std::cout<<"Card type = "<<Cards[i].getType()<<" Color = "<<Cards[i].getColor()<<std::endl;
+
                     Cards[i].initAnim(100,400+rand()%15,170 + rand()%13,17);
                     }
                     else{
-                        Cards[i].setCard(11);
+                        Cards[i].colorWild();
 
                     }
-
 
                     Cards.push_back(Cards[i]);
                     Cards.erase(Cards.begin()+i);

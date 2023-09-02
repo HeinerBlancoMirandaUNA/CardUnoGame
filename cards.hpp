@@ -8,7 +8,7 @@ public:
 
     float xPos, yPos; // Use these to quickly set the X/Y position of the card
 
-    MakeCards(float cardNumP, sf::Texture &texture){ // Creates a card, the cardNumP sets the type of card
+    MakeCards(int cardNumP, sf::Texture &texture){ // Creates a card, the cardNumP sets the type of card
 
         xPos = 0;
         yPos = 0;
@@ -26,7 +26,7 @@ public:
 
     }
 
-    void setCard (float cardNumP){ // Set to a different card (Animated)
+    void setCard (int cardNumP){ // Set to a different card (Animated)
 
         if (!(cardNum == cardNumP)){
             hidden = false;
@@ -91,6 +91,63 @@ public:
         return animRunning;
     }
 
+    int getColor (){
+
+        if (cardNum < 6){return cardNum - 1;}
+
+        if (cardNum < 11){return cardNum - 6;}
+
+        if (cardNum > 11){
+            return floor((cardNum + 1) / 13);
+        }
+        return 0;
+    }
+
+    char getType() {
+
+        if (cardNum > 11){
+            int position = 0;
+            position = (cardNum - 11 ) % 13;
+
+            switch (position){
+                case 10:
+                    return '0'; // Zero Card
+                    break;
+                case 11:
+                    return 'D'; // Draw two Card
+                    break;
+                case 12:
+                    return 'S'; // Stop Card
+                    break;
+                case 0:
+                    return 'R'; // Reverse Card
+                default:
+                    return 48 + position; // Cards between 1 to 9;
+            }
+
+        }
+        if (cardNum < 6){
+            return 'W'; // Wild Card
+        }
+
+        return 'M'; // Wild Card - Draw four
+
+    }
+
+    void colorWild() { // Change color to Wild Card
+
+        if (getType() == 'W') {
+            if (cardNum > 4) {setCard(2);}
+            else {setCard(cardNum + 1);}
+        }
+        if (getType() == 'M') {
+            if (cardNum > 9) {setCard(7);}
+            else {setCard(cardNum + 1);}
+        }
+
+    }
+
+
 private:
 
     sf::Sprite spriteCard;
@@ -98,22 +155,23 @@ private:
     unsigned int flipstate;
     bool hidden;
     bool animRunning;
+    int cardNum;
     float xAnim;
     float yAnim;
     float acceleration;
-    float cardNum;
     float squash;
     float textureWidth = 167.8;
     float textureHeight = 258;
 
-    float finalX() { // Sets the actual position X of the sprite, changes origin point to the upper middle of the sprite
+    float finalX() { // Sets the actual position X of the sprite, forces origin point to the upper middle of the sprite
 
         return (xPos - ((textureWidth/2) * squash));
 
     }
 
-    void setTexture(float cardNumP) { // Sets texture according to card number position
+    void setTexture(int texturePos) { // Sets texture according to card number position
 
+        float cardNumP = static_cast<float>(texturePos);
         float xCardNum = (fmod(cardNumP,12))*textureWidth;  // Card texture offset in X
         float yCardNum = (floor((cardNumP)/12))*textureHeight; // Card texture offset in Y
         spriteCard.setTextureRect(sf::IntRect(xCardNum,yCardNum,165,258));
