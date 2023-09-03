@@ -42,7 +42,7 @@ public:
     }
 
     void quickShow() { // Reveals a flipped card
-        hidden = true;
+        hidden = false;
         setTexture(cardNum);
     }
 

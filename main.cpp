@@ -23,15 +23,27 @@ int main()
     unoCards.loadFromFile("./resources/unocards.png");
     unoCards.setSmooth(true);
 
+    sf::Vector2f mousePos;
+
     std::vector<MakeCards> Cards;
-    for (int i= 0; i < 63; i++){
-            Cards.push_back({i,unoCards});
-            Cards[i].xPos = (i * 11) + 60 ;
-            Cards[i].yPos = 20 ;
-            Cards[i].quickHide();
+    for (int i= 0; i < 4; i++){Cards.push_back({1,unoCards});}
+    for (int i= 0; i < 4; i++){Cards.push_back({6,unoCards});}
+    for (int i= 0; i < 52; i++){
+            Cards.push_back({i+12,unoCards});
+            Cards.push_back({i+12,unoCards});
     }
 
-    sf::Vector2f mousePos;
+    for (int i= 0; i < Cards.size(); i++){
+            Cards[i].xPos = (i * 7) + 40 ;
+            Cards[i].yPos = 20 ;
+            Cards[i].quickShow();
+            if ((Cards[i].getType()) == (Cards[i+1].getType()) ){ //
+                if ((Cards[i].getType()) == '0') {Cards.erase(Cards.begin()+(i+1));}
+            }
+
+    }
+
+    std::cout<<Cards.size()<<std::endl;
 
     while (window.isOpen()){
 
