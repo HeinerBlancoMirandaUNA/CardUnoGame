@@ -1,14 +1,16 @@
 #include <iostream>
 #include <cmath>
-#include <cstdlib>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "./cards.hpp"
+#include "./cardstorage.hpp"
 
 bool lClick, rClick;
 
+int turn = 0;
+
 int main()
 {
+    // Program Initialization
     sf::RenderWindow window(sf::VideoMode(800, 480), "Test");
     window.setFramerateLimit(60);
 
@@ -25,25 +27,25 @@ int main()
 
     sf::Vector2f mousePos;
 
-    std::vector<MakeCards> Cards;
-    for (int i= 0; i < 4; i++){Cards.push_back({1,unoCards});}
-    for (int i= 0; i < 4; i++){Cards.push_back({6,unoCards});}
-    for (int i= 0; i < 52; i++){
-            Cards.push_back({i+12,unoCards});
-            Cards.push_back({i+12,unoCards});
+    // Setting up objects for new game
+
+    NewPlayer Player[] = { NewPlayer(20) , NewPlayer(350) };
+    NewDeck Deck(350,180,unoCards);
+    NewDeck Dumpster(450, 180);
+
+    for (int i = 0;i < 16;i++){
+        turn++;
+        if (turn > 1) {turn = 0;}
+        Player[turn].insertCard(Deck.getCard(Deck.lastCard()));
+        Deck.eraseCard(Deck.lastCard());
     }
+    Dumpster.insertCard(Deck.getCard(Deck.lastCard()));
+    Deck.eraseCard(Deck.lastCard());
 
-    for (int i= 0; i < Cards.size(); i++){
-            Cards[i].xPos = (i * 7) + 40 ;
-            Cards[i].yPos = 20 ;
-            Cards[i].quickShow();
-            if ((Cards[i].getType()) == (Cards[i+1].getType()) ){ //
-                if ((Cards[i].getType()) == '0') {Cards.erase(Cards.begin()+(i+1));}
-            }
-
-    }
-
-    std::cout<<Cards.size()<<std::endl;
+    Deck.alingPos();
+    Dumpster.alingPos();
+    Player[0].alingPos();Player[1].adjustRight = true;
+    Player[1].alingPos();
 
     while (window.isOpen()){
 
@@ -55,15 +57,15 @@ int main()
             if (event.type == sf::Event::Closed) {window.close();}
 
             if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                    {
-                    lClick = true;
+                if (event.mouseButton.button == sf::Mouse::Left) { lClick = true; }
+                if (event.mouseButton.button == sf::Mouse::Right) { rClick = true; }
+            }
 
-                }
-                if (event.mouseButton.button == sf::Mouse::Right)
-                    {
-                    rClick = true;
-
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Space){
+                    std::cout<<"Switched to player ";
+                    turn++; if (turn>1) {turn = 0;}
+                    std::cout<<turn + 1 <<std::endl;
                 }
             }
 
@@ -71,35 +73,30 @@ int main()
 
         }
 
-        if ((rClick)or(lClick)) {
-            for (unsigned int i = Cards.size(); i > 0 ; ) {
-                i--;
-                if (Cards[i].hitbox(mousePos)){
-
-                    if (lClick){
-                    Cards[i].show();
-                    std::cout<<"Card type = "<<Cards[i].getType()<<" Color = "<<Cards[i].getColor()<<std::endl;
-
-                    Cards[i].initAnim(100,400+rand()%15,170 + rand()%13,17);
-                    }
-                    else{
-                        Cards[i].colorWild();
-
-                    }
-
-                    Cards.push_back(Cards[i]);
-                    Cards.erase(Cards.begin()+i);
-                    break;
-
-                }
+        if (lClick) {
+            int cardSelect = Player[turn].hitbox(mousePos);
+            if(cardSelect > -1){
+                Dumpster.insertCard(Player[turn].getCard(cardSelect));
+                Player[turn].eraseCard(cardSelect);
+                Player[turn].alingPos();
+                Dumpster.alingPos();
             }
+
+            if (Deck.hitbox(mousePos)){
+                Player[turn].insertCard(Deck.getCard(Deck.lastCard()));
+                Deck.eraseCard(Deck.lastCard());
+                Player[turn].alingPos();
+                Deck.alingPos();
+
+            }
+
         }
 
         window.draw(background);
-
-        for (unsigned int i=0 ; i < Cards.size() ; i++){
-            Cards[i].drawOn(window);
-        }
+        Deck.drawOn(window);
+        Dumpster.drawOn(window);
+        Player[0].drawOn(window);
+        Player[1].drawOn(window);
 
         window.display();
     }

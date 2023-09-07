@@ -46,6 +46,7 @@
 			<Add option="-DSFML_STATIC" />
 		</Compiler>
 		<Unit filename="cards.hpp" />
+		<Unit filename="cardstorage.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

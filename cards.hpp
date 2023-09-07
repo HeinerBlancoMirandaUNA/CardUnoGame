@@ -2,28 +2,26 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 
-class MakeCards
+class MakeCard
 {
 public:
 
     float xPos, yPos; // Use these to quickly set the X/Y position of the card
 
-    MakeCards(int cardNumP, sf::Texture &texture){ // Creates a card, the cardNumP sets the type of card
+    MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, the cardNumP sets the type of card and texture
 
-        xPos = 0;
-        yPos = 0;
-        xAnim = 0;
-        yAnim = 0;
-        animRunning = false;
-        flipstate = 0;
-        squash = 0.4;
-        cardNum = cardNumP;
-
+        initCard(cardNumP);
         spriteCard.setTexture(texture);
-        spriteCard.setScale(0.4,0.4);
 
+    }
+
+    MakeCard(int cardNumP){ // Allows initialization without texture
+        initCard(cardNumP);
+    }
+
+    void setTexture (sf::Texture &texture){
+        spriteCard.setTexture(texture);
         quickShow();
-
     }
 
     void setCard (int cardNumP){ // Set to a different card (Animated)
@@ -162,6 +160,18 @@ private:
     float squash;
     float textureWidth = 167.8;
     float textureHeight = 258;
+
+    void initCard(int cardNumP) {
+        xPos = 400;
+        yPos = 150;
+        xAnim = 0;
+        yAnim = 0;
+        animRunning = false;
+        flipstate = 0;
+        squash = 0.4;
+        cardNum = cardNumP;
+        spriteCard.setScale(0.4,0.4);
+    }
 
     float finalX() { // Sets the actual position X of the sprite, forces origin point to the upper middle of the sprite
 
