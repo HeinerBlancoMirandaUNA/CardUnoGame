@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "./cardstorage.hpp"
 
-bool lClick, rClick, space;
+bool click, clickL, clickR, space;
 
 int turn = 0;
 
@@ -50,16 +50,18 @@ int main()
     while (window.isOpen()){
 
         sf::Event event;
-        lClick = false;
-        rClick = false;
+        click = false;
+        clickL = false;
+        clickR = false;
         space = false;
         while (window.pollEvent(event)){
 
             if (event.type == sf::Event::Closed) {window.close();}
 
             if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) { lClick = true; }
-                if (event.mouseButton.button == sf::Mouse::Right) { rClick = true; }
+                click = true;
+                if (event.mouseButton.button == sf::Mouse::Left) { clickL = true; }
+                if (event.mouseButton.button == sf::Mouse::Right) { clickR = true; }
             }
 
             if (event.type == sf::Event::KeyPressed) {
@@ -80,19 +82,17 @@ int main()
             if (turn == 1) {Player[0].hide();Player[1].show();}
         }
 
-        if (lClick) {
-            int cardSelect = Player[turn].hitbox(mousePos);
-            if(cardSelect > -1){
-                Dumpster.insertCard(Player[turn].getCard(cardSelect));
-                Player[turn].eraseCard(cardSelect);
+        int thisCard;
 
-            }
+        if (click) {thisCard = Player[turn].hitbox(mousePos);}
 
-            if (Deck.hitbox(mousePos)){
-                Player[turn].insertCard(Deck.getCard(Deck.lastCard()));
-                Deck.eraseCard(Deck.lastCard());
-            }
+        if (clickL) {
+            if(thisCard > -1){ Dumpster.insertCard(Player[turn].stealCard(thisCard)); }
+            if(Deck.hitbox(mousePos)){ Player[turn].insertCard(Deck.stealCard(Deck.lastCard())); }
+        }
 
+        if (clickR) {
+            if (thisCard > -1){ Player[turn].bringToFront(thisCard); }
         }
 
         window.draw(background);

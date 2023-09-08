@@ -33,8 +33,8 @@ public:
         return Cards.size()-1;
     }
 
-    MakeCard getCard(int PositionNum){
-        return Cards[PositionNum];
+    MakeCard getCard(int toGet){
+        return Cards[toGet];
     }
 
     void insertCard(MakeCard toInsert) {
@@ -50,6 +50,17 @@ public:
         Cards.erase(Cards.begin()+(toErase));
         refresh = true;
 
+    }
+
+    MakeCard stealCard (int toSteal) {
+        MakeCard temp = Cards[toSteal];
+        eraseCard(toSteal);
+        return temp;
+    }
+
+    void bringToFront (int toBring) {
+        insertCard(Cards[toBring]);
+        eraseCard(toBring);
     }
 
     void hide(){
