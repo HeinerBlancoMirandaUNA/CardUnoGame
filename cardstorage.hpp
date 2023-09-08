@@ -17,17 +17,22 @@ public:
     }
 
     void drawOn (sf::RenderWindow &window){
+        if (refresh){refreshPos();}
+        refresh = false;
         for (int i = 0; i < Cards.size(); i++) {Cards[i].drawOn(window);}
+
     }
 
     void insertCard(MakeCard toInsert) {
         Cards.push_back(toInsert);
+        refresh = true;
 
     }
 
     void eraseCard (int toErase){
         if (Cards.empty()) return;
         Cards.erase(Cards.begin()+(toErase));
+        refresh = true;
 
     }
 
@@ -45,21 +50,9 @@ public:
         return Cards[PositionNum];
     }
 
-    void alingPos() {
-        alingPositionTo(yPos, 50, 800);
-    }
-
-    int lastCard(){
-        return Cards.size()-1;
-    }
-
-protected:
-
-    float yPos;
-
-    std::vector <MakeCard> Cards;
-
-    void alingPositionTo (float yPosP, float xPosP, float width){
+    void refreshPos() {
+        float xPosP = 50;
+        float width = 800;
 
         float toDivide = (Cards.size()-1) + 0.01;
         float add = (width - (xPosP*2)) / toDivide;
@@ -69,12 +62,21 @@ protected:
         if (adjustRight) {add = add * -1; xPosP = (width - xPosP);}
 
         for (int i = 0; i < Cards.size(); i++) {
-                Cards[i].initAnim(200,xPosP,yPosP,17);
-                xPosP = xPosP + add;
-
-        }
+                Cards[i].initAnim(200,xPosP,yPos,17);
+                xPosP = xPosP + add;}
 
     }
+
+    int lastCard(){
+        return Cards.size()-1;
+    }
+
+protected:
+
+    float yPos;
+    bool refresh = false;
+
+    std::vector <MakeCard> Cards;
 
     void createCard (int cardNum, sf::Texture &texture){
         Cards.push_back(cardNum);
@@ -107,6 +109,7 @@ public:
                 if ((Cards[i].getType()) == '0') {eraseCard(i+1);}
             }
         }
+        refresh = true;
 
     }
 
@@ -116,7 +119,7 @@ public:
 
     }
 
-    int alingPos() {
+    int refreshPos() {
 
         float xPosP = xPos;
         float yPosP = yPos;
@@ -131,6 +134,9 @@ public:
     }
 
     void drawOn (sf::RenderWindow &window){
+
+        if (refresh){refreshPos();}
+        refresh = false;
         int i = 0;
         if (Cards.size() > 4) {i = Cards.size() - 4;}
 

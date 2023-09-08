@@ -30,6 +30,7 @@ int main()
     // Setting up objects for new game
 
     NewPlayer Player[] = { NewPlayer(20) , NewPlayer(350) };
+    Player[1].adjustRight = true;
     NewDeck Deck(350,180,unoCards);
     NewDeck Dumpster(450, 180);
 
@@ -41,11 +42,6 @@ int main()
     }
     Dumpster.insertCard(Deck.getCard(Deck.lastCard()));
     Deck.eraseCard(Deck.lastCard());
-
-    Deck.alingPos();
-    Dumpster.alingPos();
-    Player[0].alingPos();Player[1].adjustRight = true;
-    Player[1].alingPos();
 
     while (window.isOpen()){
 
@@ -78,16 +74,12 @@ int main()
             if(cardSelect > -1){
                 Dumpster.insertCard(Player[turn].getCard(cardSelect));
                 Player[turn].eraseCard(cardSelect);
-                Player[turn].alingPos();
-                Dumpster.alingPos();
+
             }
 
             if (Deck.hitbox(mousePos)){
                 Player[turn].insertCard(Deck.getCard(Deck.lastCard()));
                 Deck.eraseCard(Deck.lastCard());
-                Player[turn].alingPos();
-                Deck.alingPos();
-
             }
 
         }
