@@ -30,7 +30,9 @@ int main()
     // Setting up objects for new game
 
     NewPlayer Player[] = { NewPlayer(20) , NewPlayer(350) };
+    Player[0].adjustRight = false;
     Player[1].adjustRight = true;
+
     NewDeck Deck(350,180,unoCards);
     NewDeck Dumpster(450, 180);
 
@@ -61,7 +63,7 @@ int main()
                 if (event.key.code == sf::Keyboard::Space){
                     std::cout<<"Switched to player ";
                     turn++; if (turn>1) {turn = 0;}
-                    std::cout<<turn + 1 <<std::endl;
+                    std::cout<<turn<<std::endl;
                 }
             }
 

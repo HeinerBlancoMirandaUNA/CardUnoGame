@@ -31,7 +31,7 @@ public:
     }
 
     void eraseCard (int toErase){
-        if (Cards.empty()) return;
+        if (Cards.empty()) {return;}
         Cards.erase(Cards.begin()+(toErase));
         refresh = true;
 
@@ -117,6 +117,7 @@ public:
     }
 
     bool hitbox (sf::Vector2f mouse){
+        if (Cards.empty()) {return false;}
         return Cards[Cards.size() - 1].hitbox(mouse);
     }
 
