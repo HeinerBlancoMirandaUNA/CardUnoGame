@@ -31,12 +31,12 @@ int main()
 
     // Setting up objects for new game
 
-    NewPlayer Player[] = { NewPlayer(20) , NewPlayer(350) };
+    NewHand Player[] = { NewHand(20) , NewHand(350) };
     Player[0].adjustRight = false; Player[0].show();
     Player[1].adjustRight = true;
 
     NewDeck Deck(350,180,unoCards);
-    NewDeck Dumpster(450, 180);
+    NewDeck Wastepile(450, 180);
 
     for (int i = 0;i < 16;i++){
         turn++;
@@ -44,7 +44,7 @@ int main()
         Player[turn].insertCard(Deck.getCard(Deck.lastCard()));
         Deck.eraseCard(Deck.lastCard());
     }
-    Dumpster.insertCard(Deck.getCard(Deck.lastCard()));
+    Wastepile.insertCard(Deck.getCard(Deck.lastCard()));
     Deck.eraseCard(Deck.lastCard());
 
     while (window.isOpen()){
@@ -87,7 +87,7 @@ int main()
         if (click) {thisCard = Player[turn].hitbox(mousePos);}
 
         if (clickL) {
-            if(thisCard > -1){ Dumpster.insertCard(Player[turn].stealCard(thisCard)); }
+            if(thisCard > -1){ Wastepile.insertCard(Player[turn].stealCard(thisCard)); }
             if(Deck.hitbox(mousePos)){ Player[turn].insertCard(Deck.stealCard(Deck.lastCard())); }
         }
 
@@ -97,7 +97,7 @@ int main()
 
         window.draw(background);
         Deck.drawOn(window);
-        Dumpster.drawOn(window);
+        Wastepile.drawOn(window);
         Player[0].drawOn(window);
         Player[1].drawOn(window);
 

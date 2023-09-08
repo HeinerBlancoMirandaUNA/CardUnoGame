@@ -8,14 +8,14 @@ public:
 
     float xPos, yPos; // Use these to quickly set the X/Y position of the card
 
-    MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, the cardNumP sets the type of card and texture
+    MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, cardNumP sets the type of card and texture
 
         initCard(cardNumP);
         spriteCard.setTexture(texture);
 
     }
 
-    MakeCard(int cardNumP){ // Allows initialization without texture
+    MakeCard(int cardNumP){ // Creates card without texture
         initCard(cardNumP);
     }
 
@@ -132,7 +132,7 @@ public:
 
     }
 
-    void colorWild() { // Change color to Wild Card
+    void colorWild() { // Change Wild Card Color
 
         if (getType() == 'W') {
             if (cardNum > 4) {setCard(2);}
