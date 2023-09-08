@@ -16,11 +16,12 @@ public:
 
     }
 
-    void drawOn (sf::RenderWindow &window){
-        if (refresh){refreshPos();}
-        refresh = false;
-        for (int i = 0; i < Cards.size(); i++) {Cards[i].drawOn(window);}
+    int lastCard(){
+        return Cards.size()-1;
+    }
 
+    MakeCard getCard(int PositionNum){
+        return Cards[PositionNum];
     }
 
     void insertCard(MakeCard toInsert) {
@@ -38,16 +39,17 @@ public:
 
     int hitbox (sf::Vector2f mouse){
         for (int i = Cards.size(); i > 0 ;) {
-                i--;
-                if (Cards[i].hitbox(mouse)){return i;}
+            i--;
+            if (Cards[i].hitbox(mouse)){return i;}
         }
         return -1;
     }
 
+    void drawOn (sf::RenderWindow &window){
+        if (refresh){refreshPos();}
+        refresh = false;
+        for (int i = 0; i < Cards.size(); i++) {Cards[i].drawOn(window);}
 
-
-    MakeCard getCard(int PositionNum){
-        return Cards[PositionNum];
     }
 
     void refreshPos() {
@@ -67,15 +69,10 @@ public:
 
     }
 
-    int lastCard(){
-        return Cards.size()-1;
-    }
-
 protected:
 
     float yPos;
     bool refresh = false;
-
     std::vector <MakeCard> Cards;
 
     void createCard (int cardNum, sf::Texture &texture){
@@ -119,18 +116,8 @@ public:
 
     }
 
-    int refreshPos() {
-
-        float xPosP = xPos;
-        float yPosP = yPos;
-        int i = 0;
-        if (Cards.size() > 4) {i = Cards.size() - 4;}
-        Cards[i].xPos = xPosP; Cards[i].yPos = yPosP;
-        for (;i < Cards.size() ; i++) {
-            Cards[i].initAnim(200,xPosP,yPosP,17);
-            xPosP = xPosP - 5;
-            yPosP = yPosP - 5;
-        }
+    bool hitbox (sf::Vector2f mouse){
+        return Cards[Cards.size() - 1].hitbox(mouse);
     }
 
     void drawOn (sf::RenderWindow &window){
@@ -145,12 +132,19 @@ public:
         }
     }
 
-    bool hitbox (sf::Vector2f mouse){
-        return Cards[Cards.size() - 1].hitbox(mouse);
+    void refreshPos() {
+
+        float xPosP = xPos;
+        float yPosP = yPos;
+        int i = 0;
+        if (Cards.size() > 4) {i = Cards.size() - 4;}
+        Cards[i].xPos = xPosP; Cards[i].yPos = yPosP;
+        for (;i < Cards.size() ; i++) {
+            Cards[i].initAnim(200,xPosP,yPosP,17);
+            xPosP = xPosP - 5;
+            yPosP = yPosP - 5;
+        }
     }
-
-
-
 
 };
 
