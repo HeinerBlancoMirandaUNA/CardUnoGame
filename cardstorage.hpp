@@ -5,9 +5,20 @@
 
 class NewPlayer {
 
-public:
+protected:
 
-    bool adjustRight;
+    float yPos;
+    bool refresh = false;
+    bool hidden = true;
+    std::vector <MakeCard> Cards;
+
+    void createCard (int cardNum, sf::Texture &texture){
+        Cards.push_back(cardNum);
+        int last = Cards.size() - 1;
+        Cards[last].setTexture(texture);
+    }
+
+public:
 
     NewPlayer(float yPosP) {
 
@@ -15,6 +26,8 @@ public:
         adjustRight = false;
 
     }
+
+    bool adjustRight;
 
     int lastCard(){
         return Cards.size()-1;
@@ -26,6 +39,8 @@ public:
 
     void insertCard(MakeCard toInsert) {
         Cards.push_back(toInsert);
+        if (hidden) {Cards[lastCard()].hide();}
+        else {Cards[lastCard()].show();};
         refresh = true;
 
     }
@@ -35,6 +50,16 @@ public:
         Cards.erase(Cards.begin()+(toErase));
         refresh = true;
 
+    }
+
+    void hide(){
+        for (int i = 0; i < Cards.size(); i++) {Cards[i].hide();hidden = true;}
+        hidden = true;
+    }
+
+    void show(){
+        for (int i = 0; i < Cards.size(); i++) {Cards[i].show();hidden = false;}
+        hidden = false;
     }
 
     int hitbox (sf::Vector2f mouse){
@@ -69,18 +94,6 @@ public:
 
     }
 
-protected:
-
-    float yPos;
-    bool refresh = false;
-    std::vector <MakeCard> Cards;
-
-    void createCard (int cardNum, sf::Texture &texture){
-        Cards.push_back(cardNum);
-        int last = Cards.size() - 1;
-        Cards[last].setTexture(texture);
-    }
-
 };
 
 class NewDeck : public NewPlayer {
@@ -90,9 +103,14 @@ protected:
 
 public:
 
+    // Use this constructor to create Deck object
+
     NewDeck (float xPosP, float yPosP,sf::Texture &texture) : NewPlayer(yPosP) {
 
         xPos = xPosP;
+
+        // Builds the entire card set
+
         for (int i= 0; i < 4; i++){createCard(1,texture);}
         for (int i= 0; i < 4; i++){createCard(6,texture);}
         for (int i= 0; i < 52; i++){
@@ -101,18 +119,30 @@ public:
         }
 
         for (int i= 0; i < Cards.size(); i++){
-            //Cards[i].quickHide();
+            Cards[i].quickHide();
             if ((Cards[i].getType()) == (Cards[i+1].getType()) ){
                 if ((Cards[i].getType()) == '0') {eraseCard(i+1);}
             }
         }
         refresh = true;
 
+        //Shuffles the cards
+
+        for (int i = 0; i < 2000; i++) {
+            int moveThis=rand()%107;
+            insertCard(Cards[moveThis]);
+            eraseCard(moveThis);
+        }
+
+
     }
+
+    // Use this constructor to create Dumpster object
 
     NewDeck (float xPosP, float yPosP) : NewPlayer(yPosP) {
 
         xPos = xPosP;
+        hidden = false;
 
     }
 
@@ -141,7 +171,7 @@ public:
         if (Cards.size() > 4) {i = Cards.size() - 4;}
         Cards[i].xPos = xPosP; Cards[i].yPos = yPosP;
         for (;i < Cards.size() ; i++) {
-            Cards[i].initAnim(200,xPosP,yPosP,17);
+            Cards[i].initAnim(100,xPosP,yPosP,17);
             xPosP = xPosP - 5;
             yPosP = yPosP - 5;
         }

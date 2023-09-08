@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "./cardstorage.hpp"
 
-bool lClick, rClick;
+bool lClick, rClick, space;
 
 int turn = 0;
 
@@ -27,10 +27,12 @@ int main()
 
     sf::Vector2f mousePos;
 
+    srand (time(NULL));
+
     // Setting up objects for new game
 
     NewPlayer Player[] = { NewPlayer(20) , NewPlayer(350) };
-    Player[0].adjustRight = false;
+    Player[0].adjustRight = false; Player[0].show();
     Player[1].adjustRight = true;
 
     NewDeck Deck(350,180,unoCards);
@@ -50,6 +52,7 @@ int main()
         sf::Event event;
         lClick = false;
         rClick = false;
+        space = false;
         while (window.pollEvent(event)){
 
             if (event.type == sf::Event::Closed) {window.close();}
@@ -61,14 +64,20 @@ int main()
 
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Space){
-                    std::cout<<"Switched to player ";
-                    turn++; if (turn>1) {turn = 0;}
-                    std::cout<<turn<<std::endl;
+                    space = true;
                 }
             }
 
             mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
+        }
+
+        if (space) {
+            turn++; if (turn > 1) {turn = 0;}
+            std::cout<<"Switched to player ";
+            std::cout<<turn<<std::endl;
+            if (turn == 0) {Player[0].show();Player[1].hide();}
+            if (turn == 1) {Player[0].hide();Player[1].show();}
         }
 
         if (lClick) {
