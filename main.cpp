@@ -8,7 +8,7 @@ bool space;
 
 int turn = 0;
 
-void playerInput(int &click,sf::RenderWindow &window, sf::Event &event, sf::Vector2f &mousePosition){
+void playerInput(sf::Event &event, sf::RenderWindow &window, int &click,sf::Vector2f &mousePosition){
 
 	space = false;
 	click = 0;
@@ -26,8 +26,19 @@ void playerInput(int &click,sf::RenderWindow &window, sf::Event &event, sf::Vect
 
 }
 
-void game(NewHand &Player, NewDeck &Deck, NewDeck &Wastepile) {
-	std::cout<<"game tick "<<std::endl;
+void game(NewHand &Player, NewDeck &Deck, NewDeck &Wastepile, int click, sf::Vector2f &mousePosition) {
+
+	int thisCard;
+
+	if (click > 0) {thisCard = Player.hitbox(mousePosition);}
+
+	if (click == 1) {
+			if(Deck.hitbox(mousePosition)){ Player.addCard(Deck.grabCard()); return; }
+            if(thisCard > -1){ Wastepile.addCard(Player.grabCard(thisCard)); return; }
+	}
+	if (click == 2) {
+		if (thisCard > -1){ Player.bringToFront(thisCard); }
+    }
 }
 
 
@@ -71,24 +82,13 @@ int main()
     }
     Wastepile.addCard(Deck.grabCard());
 
+    // Game Loop
 
     while (window.isOpen()){
 
         sf::Event event;
-        playerInput(click,window,event,mousePosition);
-
-        int thisCard;
-
-        if (click > 0) {thisCard = Player[turn].hitbox(mousePosition);}
-
-        if (click == 1) {
-            if(thisCard > -1){ Wastepile.addCard(Player[turn].grabCard(thisCard)); }
-            if(Deck.hitbox(mousePosition)){ Player[turn].addCard(Deck.grabCard()); }
-        }
-
-        if (click == 2) {
-            if (thisCard > -1){ Player[turn].bringToFront(thisCard); }
-        }
+        playerInput(event,window,click,mousePosition);
+        game(Player[turn],Deck,Wastepile,click,mousePosition);
 
 		if (click == 3) {
             turn++; if (turn > 1) {turn = 0;}
@@ -103,8 +103,6 @@ int main()
         Wastepile.drawOn(window);
         Player[0].drawOn(window);
         Player[1].drawOn(window);
-
-        std::cout<<click;
 
         window.display();
     }
