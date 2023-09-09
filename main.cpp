@@ -3,45 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "./cardstorage.hpp"
-
-bool space;
-
-int turn = 0;
-
-void playerInput(sf::Event &event, sf::RenderWindow &window, int &click,sf::Vector2f &mousePosition){
-
-	space = false;
-	click = 0;
-
-    while (window.pollEvent(event)) {
-		if (event.type == sf::Event::MouseButtonPressed) {
-
-			if (event.mouseButton.button == sf::Mouse::Left) { click = 1;}
-			if (event.mouseButton.button == sf::Mouse::Right) { click = 2; }
-			if (event.mouseButton.button == sf::Mouse::Middle) { click = 3; }
-		}
-	if (event.type == sf::Event::Closed) {window.close();}
-	mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-	}
-
-}
-
-void game(NewHand &Player, NewDeck &Deck, NewDeck &Wastepile, int click, sf::Vector2f &mousePosition) {
-
-	int thisCard;
-
-	if (click > 0) {thisCard = Player.hitbox(mousePosition);}
-
-	if (click == 1) {
-			if(Deck.hitbox(mousePosition)){ Player.addCard(Deck.grabCard()); return; }
-            if(thisCard > -1){ Wastepile.addCard(Player.grabCard(thisCard)); return; }
-	}
-	if (click == 2) {
-		if (thisCard > -1){ Player.bringToFront(thisCard); }
-    }
-}
-
-
+#include "./gamelogic.hpp"
 
 int main()
 {
@@ -65,7 +27,7 @@ int main()
 
     srand (time(NULL));
 
-    // Setting up objects for new game
+    // Setting up objects for new turnIsOver
 
     NewHand Player[] = { NewHand(20) , NewHand(350) };
     Player[0].adjustRight = false; Player[0].show();
@@ -74,6 +36,7 @@ int main()
     NewDeck Deck(350,180,unoCards);
     NewDeck Wastepile(450, 180);
 
+    int turn = 0;
     for (int i = 0;i < 16;i++){
         turn++;
         if (turn > 1) {turn = 0;}
@@ -82,18 +45,15 @@ int main()
     }
     Wastepile.addCard(Deck.grabCard());
 
-    // Game Loop
+    // turnIsOver Loop
 
     while (window.isOpen()){
 
         sf::Event event;
         playerInput(event,window,click,mousePosition);
-        game(Player[turn],Deck,Wastepile,click,mousePosition);
 
-		if (click == 3) {
+		if (turnIsOver(Player[turn],Deck,Wastepile,click,mousePosition)) {
             turn++; if (turn > 1) {turn = 0;}
-            std::cout<<"Switched to player ";
-            std::cout<<turn<<std::endl;
             if (turn == 0) {Player[0].show();Player[1].hide();}
             if (turn == 1) {Player[0].hide();Player[1].show();}
         }
