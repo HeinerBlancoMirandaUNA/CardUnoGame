@@ -4,9 +4,33 @@
 #include <SFML/Graphics.hpp>
 #include "./cardstorage.hpp"
 
-bool click, clickL, clickR, space;
+bool space;
 
 int turn = 0;
+
+void playerInput(int &click,sf::RenderWindow &window, sf::Event &event, sf::Vector2f &mousePosition){
+
+	space = false;
+	click = 0;
+
+    while (window.pollEvent(event)) {
+		if (event.type == sf::Event::MouseButtonPressed) {
+
+			if (event.mouseButton.button == sf::Mouse::Left) { click = 1;}
+			if (event.mouseButton.button == sf::Mouse::Right) { click = 2; }
+			if (event.mouseButton.button == sf::Mouse::Middle) { click = 3; }
+		}
+	if (event.type == sf::Event::Closed) {window.close();}
+	mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+	}
+
+}
+
+void game(NewHand &Player, NewDeck &Deck, NewDeck &Wastepile) {
+	std::cout<<"game tick "<<std::endl;
+}
+
+
 
 int main()
 {
@@ -25,7 +49,8 @@ int main()
     unoCards.loadFromFile("./resources/unocards.png");
     unoCards.setSmooth(true);
 
-    sf::Vector2f mousePos;
+    sf::Vector2f mousePosition;
+    int click = 0;
 
     srand (time(NULL));
 
@@ -46,35 +71,26 @@ int main()
     }
     Wastepile.addCard(Deck.grabCard());
 
+
     while (window.isOpen()){
 
         sf::Event event;
-        click = false;
-        clickL = false;
-        clickR = false;
-        space = false;
+        playerInput(click,window,event,mousePosition);
 
-		while (window.pollEvent(event)) {
+        int thisCard;
 
-            if (event.type == sf::Event::Closed) {window.close();}
+        if (click > 0) {thisCard = Player[turn].hitbox(mousePosition);}
 
-            if (event.type == sf::Event::MouseButtonPressed) {
-                click = true;
-                if (event.mouseButton.button == sf::Mouse::Left) { clickL = true; }
-                if (event.mouseButton.button == sf::Mouse::Right) { clickR = true; }
-            }
-
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Space){
-                    space = true;
-                }
-            }
-
-            mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-
+        if (click == 1) {
+            if(thisCard > -1){ Wastepile.addCard(Player[turn].grabCard(thisCard)); }
+            if(Deck.hitbox(mousePosition)){ Player[turn].addCard(Deck.grabCard()); }
         }
 
-        if (space) {
+        if (click == 2) {
+            if (thisCard > -1){ Player[turn].bringToFront(thisCard); }
+        }
+
+		if (click == 3) {
             turn++; if (turn > 1) {turn = 0;}
             std::cout<<"Switched to player ";
             std::cout<<turn<<std::endl;
@@ -82,24 +98,13 @@ int main()
             if (turn == 1) {Player[0].hide();Player[1].show();}
         }
 
-        int thisCard;
-
-        if (click) {thisCard = Player[turn].hitbox(mousePos);}
-
-        if (clickL) {
-            if(thisCard > -1){ Wastepile.addCard(Player[turn].grabCard(thisCard)); }
-            if(Deck.hitbox(mousePos)){ Player[turn].addCard(Deck.grabCard()); }
-        }
-
-        if (clickR) {
-            if (thisCard > -1){ Player[turn].bringToFront(thisCard); }
-        }
-
         window.draw(background);
         Deck.drawOn(window);
         Wastepile.drawOn(window);
         Player[0].drawOn(window);
         Player[1].drawOn(window);
+
+        std::cout<<click;
 
         window.display();
     }
