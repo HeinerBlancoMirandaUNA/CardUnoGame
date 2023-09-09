@@ -31,7 +31,7 @@ public:
         return Cards[toGet];
     }
 
-    void insertCard(MakeCard toInsert) {
+    void addCard(MakeCard toInsert) {
         Cards.push_back(toInsert);
         if (hidden) {Cards[lastCard()].hide();}
         else {Cards[lastCard()].show();};
@@ -46,14 +46,18 @@ public:
 
     }
 
-    MakeCard stealCard (int toSteal) {
+    MakeCard grabCard (int toSteal) {
         MakeCard temp = Cards[toSteal];
         eraseCard(toSteal);
         return temp;
     }
 
+	MakeCard grabCard () { // Grabs the last card if no value is specified
+        return grabCard(lastCard());
+    }
+
     void bringToFront (int toBring) {
-        insertCard(Cards[toBring]);
+        addCard(Cards[toBring]);
         eraseCard(toBring);
     }
 
@@ -106,7 +110,7 @@ class NewDeck : public NewHand {
 
 protected:
     float xPos;
-    bool autoPurge;
+    bool autoPurge; // Deletes
 
     void createCard (int cardNum, sf::Texture &texture){
         Cards.push_back(cardNum);

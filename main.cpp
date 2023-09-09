@@ -41,11 +41,10 @@ int main()
     for (int i = 0;i < 16;i++){
         turn++;
         if (turn > 1) {turn = 0;}
-        Player[turn].insertCard(Deck.getCard(Deck.lastCard()));
-        Deck.eraseCard(Deck.lastCard());
+        Player[turn].addCard(Deck.grabCard());
+
     }
-    Wastepile.insertCard(Deck.getCard(Deck.lastCard()));
-    Deck.eraseCard(Deck.lastCard());
+    Wastepile.addCard(Deck.grabCard());
 
     while (window.isOpen()){
 
@@ -54,7 +53,8 @@ int main()
         clickL = false;
         clickR = false;
         space = false;
-        while (window.pollEvent(event)){
+
+		while (window.pollEvent(event)) {
 
             if (event.type == sf::Event::Closed) {window.close();}
 
@@ -87,8 +87,8 @@ int main()
         if (click) {thisCard = Player[turn].hitbox(mousePos);}
 
         if (clickL) {
-            if(thisCard > -1){ Wastepile.insertCard(Player[turn].stealCard(thisCard)); }
-            if(Deck.hitbox(mousePos)){ Player[turn].insertCard(Deck.stealCard(Deck.lastCard())); }
+            if(thisCard > -1){ Wastepile.addCard(Player[turn].grabCard(thisCard)); }
+            if(Deck.hitbox(mousePos)){ Player[turn].addCard(Deck.grabCard()); }
         }
 
         if (clickR) {
