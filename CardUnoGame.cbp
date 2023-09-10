@@ -47,6 +47,7 @@
 		</Compiler>
 		<Unit filename="cards.hpp" />
 		<Unit filename="cardstorage.hpp" />
+		<Unit filename="gamelogic.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

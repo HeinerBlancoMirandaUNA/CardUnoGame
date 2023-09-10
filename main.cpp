@@ -8,33 +8,30 @@
 int main()
 {
     // Program Initialization
-    sf::RenderWindow window(sf::VideoMode(800, 480), "Test");
+    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "");
     window.setFramerateLimit(60);
+    window.setKeyRepeatEnabled(false);
 
     sf::Texture backgroundTexture;
     backgroundTexture.loadFromFile("./resources/felt.png");
     backgroundTexture.setSmooth(true);
     sf::Sprite background;
     background.setTexture(backgroundTexture);
-    background.move(-2,-2); background.setScale(1.01,1);
 
     sf::Texture unoCards;
     unoCards.loadFromFile("./resources/unocards.png");
     unoCards.setSmooth(true);
 
-    sf::Vector2f mousePosition;
-    int click = 0;
-
     srand (time(NULL));
 
-    // Setting up objects for new turnIsOver
+    // Setting up objects for new Game
 
-    NewHand Player[] = { NewHand(20) , NewHand(350) };
-    Player[0].adjustRight = false; Player[0].show();
-    Player[1].adjustRight = true;
+    NewHand Player[] = { NewHand(window,false) , NewHand(window,true) }; // { NewHand(20,window.getSize().x) , NewHand(window.getSize().y-140,window.getSize().x) };
+	Player[0].show();
 
-    NewDeck Deck(350,180,unoCards);
-    NewDeck Wastepile(450, 180);
+
+    NewDeck Deck(-55,50,unoCards,window);
+    NewDeck Wastepile(55,50,window);
 
     int turn = 0;
     for (int i = 0;i < 16;i++){
@@ -45,19 +42,33 @@ int main()
     }
     Wastepile.addCard(Deck.grabCard());
 
-    // turnIsOver Loop
+    // Game Loop
 
     while (window.isOpen()){
 
         sf::Event event;
-        playerInput(event,window,click,mousePosition);
+        playerInput(event,window);
 
-		if (turnIsOver(Player[turn],Deck,Wastepile,click,mousePosition)) {
+		if (turnIsOver(Player[turn],Deck,Wastepile)) {
             turn++; if (turn > 1) {turn = 0;}
             if (turn == 0) {Player[0].show();Player[1].hide();}
             if (turn == 1) {Player[0].hide();Player[1].show();}
         }
 
+        if (action == 11){
+
+			background.setScale(
+			window.getSize().x / background.getLocalBounds().width,
+			window.getSize().y / background.getLocalBounds().height
+			);
+
+			Wastepile.refreshPos(window);
+			Deck.refreshPos(window);
+			Player[0].refreshPos(window);
+			Player[1].refreshPos(window);
+
+        }
+		window.clear();
         window.draw(background);
         Deck.drawOn(window);
         Wastepile.drawOn(window);
