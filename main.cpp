@@ -33,8 +33,8 @@ int main(int argc, char* argv[])
 
     // Setting up objects for new Game
 
-    NewHand Player[] = { NewHand(window,false) , NewHand(window,true) };
-	Player[0].show();
+    NewHand Players[] = { NewHand(window,false) , NewHand(window,true) };
+	Players[0].show();
 
     NewDeck Deck(-55,50,unoCards,window);
     NewDeck Wastepile(55,50,window);
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
     for (int i = 0;i < 16;i++){
         turn++;
         if (turn > 1) {turn = 0;}
-        Player[turn].addCard(Deck.grabCard());
+        Players[turn].addCard(Deck.grabCard());
 
     }
     Wastepile.addCard(Deck.grabCard());
@@ -54,11 +54,10 @@ int main(int argc, char* argv[])
         sf::Event event;
         playerInput(event,window);
 
-        if (turnIsOver(Player[turn],Deck,Wastepile)) {
-			switchTurn(Player);
-		}
+        thisTurn(Players,Deck,Wastepile);
 
-        drawOnWindow(window,background,Player,Deck,Wastepile);
+        drawOn(window,background,Players,Deck,Wastepile);
+
     }
     return 0;
 }
