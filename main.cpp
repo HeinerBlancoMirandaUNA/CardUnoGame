@@ -1,10 +1,9 @@
 #include <iostream>
 #include <string.h>
-#include <fstream>
-#include <cmath>
-#include <vector>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
 #include "./cardstorage.hpp"
+#include "./userinteraction.hpp"
 #include "./gamelogic.hpp"
 
 int main(int argc, char* argv[])

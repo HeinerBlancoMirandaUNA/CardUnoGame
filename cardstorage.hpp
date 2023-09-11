@@ -1,7 +1,6 @@
-#include <iostream>
-#include "./cards.hpp"
 #include <cstdlib>
 #include <vector>
+#include "./cards.hpp"
 
 class NewHand {
 
