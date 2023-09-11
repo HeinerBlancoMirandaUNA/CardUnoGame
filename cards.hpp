@@ -8,6 +8,8 @@ public:
 
     float xPos, yPos; // Use these to quickly set the X/Y position of the card
 
+	bool enable; // Enable hitbox
+
     MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, cardNumP sets the type of card and texture
 
         initCard(cardNumP);
@@ -60,6 +62,7 @@ public:
 
     bool hitbox(sf::Vector2f mouse) { // Mouse Hitbox
 
+		if (!enable) {return false;}
         if ((mouse.x > finalX())and(mouse.y > yPos)){
             if ((mouse.x < finalX() + 66 )and(mouse.y < yPos + 103.2 )){return true;}
         }
@@ -69,7 +72,8 @@ public:
 
     void drawOn(sf::RenderWindow &window) { // Draws sprite on the window
 
-        moveAnim(); flipAnim();
+        moveAnim(); flipAnim(); opacityAnim();
+        spriteCard.setColor(sf::Color(255,255,255,opacity));
         spriteCard.setPosition(finalX(), yPos);
         window.draw(spriteCard);
 
@@ -154,6 +158,7 @@ private:
     bool hidden;
     bool animRunning;
     int cardNum;
+    int opacity;
     float xAnim;
     float yAnim;
     float acceleration;
@@ -167,10 +172,13 @@ private:
         xAnim = 0;
         yAnim = 0;
         animRunning = false;
+        enable = true;
+        opacity = 0;
         flipstate = 0;
         squash = 0.4;
         cardNum = cardNumP;
         spriteCard.setScale(0.4,0.4);
+
     }
 
     float finalX() { // Sets the actual position X of the sprite, forces origin point to the upper middle of the sprite
@@ -202,6 +210,15 @@ private:
                 }
         }
 
+    }
+
+    void opacityAnim (){
+		if (enable){
+			if (opacity<244) {opacity = opacity + 10;}
+
+		} else {
+			if (opacity>50) {opacity = opacity - 10;}
+		}
     }
 
     void initFlip() { // Initializes flip animation

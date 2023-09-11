@@ -41,6 +41,10 @@ public:
         return Cards[toGet];
     }
 
+	MakeCard getCard(){
+        return Cards[lastCard()];
+    }
+
     void addCard(MakeCard toInsert) {
         Cards.push_back(toInsert);
         if (hidden) {Cards[lastCard()].hide();}
@@ -64,6 +68,18 @@ public:
 
 	MakeCard grabCard () { // Grabs the last card if no value is specified
         return grabCard(lastCard());
+    }
+
+    void colorWild(int toColor){
+    	Cards[toColor].colorWild();
+    }
+
+    void disable(int toDisable) {
+    	Cards[toDisable].enable = false;
+    }
+
+    void enableAll(){
+    	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = true;}
     }
 
     void bringToFront (int toBring) {

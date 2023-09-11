@@ -60,6 +60,7 @@ int main(int argc, char* argv[])
 
         thisTurn(Players,Deck,Wastepile);
 
+
         drawOn(window,background,Players,Deck,Wastepile);
 
     }
