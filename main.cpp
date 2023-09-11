@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <fstream>
 #include <cmath>
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -9,12 +10,15 @@
 int main(int argc, char* argv[])
 {
     // Program Initialization
+    loadTextStrings();
 
-    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "");
+    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), info[0]);
 
 	if (argc > 1 && (!strcmp(argv[1],"-fullscreen")) ){
 		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode()), "", sf::Style::None);
 	}
+
+	tellUser(0);
 
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);

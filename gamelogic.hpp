@@ -3,6 +3,24 @@ int click = 0;
 bool windowResized = true;
 sf::Vector2f mousePosition;
 sf::Vector2i resolution(800,480);
+std::vector <std::string> info;
+
+void loadTextStrings() {
+	std::ifstream textFile;
+	textFile.open("./resources/txtstrings.txt");
+	std::string toCopy;
+
+	while(std::getline(textFile,toCopy)){
+		info.push_back(toCopy);
+	}
+
+	textFile.close();
+
+}
+
+void tellUser(int line) {
+	std::cout<<info[line]<<std::endl;
+}
 
 void playerInput(sf::Event &event, sf::RenderWindow &window){
 
@@ -23,7 +41,7 @@ void playerInput(sf::Event &event, sf::RenderWindow &window){
 
 		if (event.type == sf::Event::Resized) {
 			sf::Vector2i lastPosition = window.getPosition();
-			window.create(sf::VideoMode(window.getSize().x,window.getSize().y), "");
+			window.create(sf::VideoMode(window.getSize().x,window.getSize().y), info[0]);
 			window.setPosition(lastPosition);
 			windowResized = true;
 		}
