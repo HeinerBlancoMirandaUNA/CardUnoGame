@@ -1,14 +1,12 @@
 int action = 0;
 int click = 0;
 sf::Vector2f mousePosition;
-sf::Vector2i resolution(800,500);
-bool isFullScreen = false;
+sf::Vector2i resolution(800,480);
 
 void playerInput(sf::Event &event, sf::RenderWindow &window){
 
 	click = 0;
 	action = 0;
-	bool switchMode = false;
 
     while (window.pollEvent(event)) {
 		if (event.type == sf::Event::MouseButtonPressed) {
@@ -19,7 +17,6 @@ void playerInput(sf::Event &event, sf::RenderWindow &window){
 
 		if (event.type == sf::Event::KeyPressed){
 
-			if (event.key.alt&&(event.key.code == sf::Keyboard::Return)){ switchMode = true;}
 			if (event.key.code == sf::Keyboard::Escape){ window.close(); }
 			if (event.key.code == sf::Keyboard::Num1){ action = 1; }
 			if (event.key.code == sf::Keyboard::Num2){ action = 2; }
@@ -36,21 +33,9 @@ void playerInput(sf::Event &event, sf::RenderWindow &window){
 		mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 	}
 
-	if (switchMode){
-		if (isFullScreen){
-			window.create(sf::VideoMode(resolution.x, resolution.y), "");
-			isFullScreen = false;
-
-		}else{
-			window.create(sf::VideoMode(800,600), "",sf::Style::Fullscreen);
-			isFullScreen = true;
-		}
-
-		action = 11;
-
-	}
-
 }
+
+
 
 bool turnIsOver(NewHand &Player, NewDeck &Deck, NewDeck &Wastepile) {
 

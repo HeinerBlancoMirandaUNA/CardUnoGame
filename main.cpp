@@ -1,14 +1,21 @@
 #include <iostream>
+#include <string.h>
 #include <cmath>
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "./cardstorage.hpp"
 #include "./gamelogic.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
     // Program Initialization
+
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "");
+
+	if (argc > 1 && (!strcmp(argv[1],"-fullscreen")) ){
+		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode()), "", sf::Style::None);
+	}
+
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
