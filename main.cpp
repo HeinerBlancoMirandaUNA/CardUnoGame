@@ -19,9 +19,6 @@ int main(int argc, char* argv[])
 
 	tellUser(0);
 
-    window.setFramerateLimit(60);
-    window.setKeyRepeatEnabled(false);
-
     sf::Texture backgroundTexture;
     backgroundTexture.loadFromFile("./resources/felt.png");
     backgroundTexture.setSmooth(true);

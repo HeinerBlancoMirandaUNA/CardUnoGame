@@ -71,6 +71,9 @@ void drawOn(sf::RenderWindow &window, sf::Sprite &background, NewHand Players[],
 
 	}
 
+    window.setFramerateLimit(60);
+    window.setKeyRepeatEnabled(false);
+
 	window.clear();
 	window.draw(background);
 	Deck.drawOn(window);

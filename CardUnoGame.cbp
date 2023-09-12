@@ -49,6 +49,7 @@
 		<Unit filename="cardstorage.hpp" />
 		<Unit filename="gamelogic.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="userinteraction.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
