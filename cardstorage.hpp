@@ -17,6 +17,7 @@ protected:
 public:
 
 	bool adjustTop;
+	bool isHuman;
 
     NewHand(float yPosP) {
 

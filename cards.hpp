@@ -148,6 +148,11 @@ public:
 
     }
 
+    bool isWild(){
+    	if ((getType()=='M')||(getType()=='W')) {return true;}
+		return false;
+    }
+
 
 private:
 
