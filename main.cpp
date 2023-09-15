@@ -2,7 +2,9 @@
 #include <string.h>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
-#include "./cardstorage.hpp"
+#include "./cards.hpp"
+#include "./newhand.hpp"
+#include "./newdeck.hpp"
 #include "./userinteraction.hpp"
 #include "./gamelogic.hpp"
 
