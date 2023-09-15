@@ -8,7 +8,7 @@ class MakeCard
 public:
 
     float xPos, yPos; // Use these to quickly set the X/Y position of the card
-	bool enable; // Enable hitbox
+	bool enable;
     MakeCard(int cardNumP, sf::Texture &texture);
     MakeCard(int cardNumP);
     void setTexture (sf::Texture &texture);
@@ -42,93 +42,13 @@ protected:
     float textureWidth = 167.8;
     float textureHeight = 258;
 
-    void initCard(int cardNumP) {
-        xPos = 400;
-        yPos = 150;
-        xAnim = 0;
-        yAnim = 0;
-        animRunning = false;
-        enable = true;
-        opacity = 0;
-        flipstate = 0;
-        squash = 0.4;
-        cardNum = cardNumP;
-        spriteCard.setScale(0.4,0.4);
-
-    }
-
-    float finalX() { // Sets the actual position X of the sprite, forces origin point to the upper middle of the sprite
-
-        return (xPos - ((textureWidth/2) * squash));
-
-    }
-
-    void setTexture(int texturePos) { // Sets texture according to card number position
-
-        float cardNumP = static_cast<float>(texturePos);
-        float xCardNum = (fmod(cardNumP,12))*textureWidth;  // Card texture offset in X
-        float yCardNum = (floor((cardNumP)/12))*textureHeight; // Card texture offset in Y
-        spriteCard.setTextureRect(sf::IntRect(xCardNum,yCardNum,165,258));
-
-    }
-
-    void moveAnim() { // Updates movement animation
-
-        if (animRunning) {
-
-                xPos = xPos+((xAnim-xPos)/(ticks)*acceleration);
-                yPos = yPos+((yAnim-yPos)/(ticks)*acceleration);
-                ticks = ticks - 1;
-                if (ticks == 0) {
-                        animRunning = false;
-                        xPos = xAnim;
-                        yPos = yAnim;
-                }
-        }
-
-    }
-
-    void opacityAnim (){
-		if (enable){
-			if (opacity<244) {opacity = opacity + 10;}
-
-		} else {
-			if (opacity>50) {opacity = opacity - 10;}
-		}
-    }
-
-    void initFlip() { // Initializes flip animation
-
-        flipstate = 1;
-
-    }
-
-    void flipAnim() { // Updates flip animation
-
-        if (flipstate == 0){return;}
-
-        if (flipstate == 1){ // Squash sprite
-            squash = squash - 0.08;
-            if (squash < 0.001){
-                flipstate = 2;
-                if (hidden){setTexture(0);}
-                else setTexture(cardNum);
-            }
-        }
-
-        if (flipstate == 2){ // Stretch sprite
-            squash = squash + 0.03;
-            if (squash > 0.4){
-                squash = 0.4;
-                flipstate = 3;
-            }
-        }
-
-        if (flipstate > 0) {spriteCard.setScale(squash ,0.4);}
-
-        if (flipstate == 3) {flipstate = 0;}
-
-    }
+    void initCard(int cardNumP);
+    float finalX();
+    void setTexture(int texturePos);
+    void moveAnim();
+    void opacityAnim();
+    void initFlip();
+    void flipAnim();
 
 };
 
