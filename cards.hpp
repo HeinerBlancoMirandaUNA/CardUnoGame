@@ -1,6 +1,6 @@
-#include <cmath>
-#include <SFML/Graphics.hpp>
-
+//#include <cmath>
+//#include <SFML/Graphics.hpp>
+/*
 class MakeCard
 {
 public:
@@ -259,3 +259,4 @@ private:
     }
 
 };
+*/
