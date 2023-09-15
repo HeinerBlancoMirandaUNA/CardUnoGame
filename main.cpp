@@ -2,8 +2,8 @@
 #include <string.h>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
-// #include "./cards.hpp"
 #include "./include/make_card.h"
+#include "./include/hand_interaction.h"
 #include "./newhand.hpp"
 #include "./newdeck.hpp"
 #include "./userinteraction.hpp"

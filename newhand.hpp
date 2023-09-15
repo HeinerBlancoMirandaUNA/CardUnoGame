@@ -1,118 +1,25 @@
 #include <cstdlib>
 #include <vector>
 
-class NewHand {
-
-protected:
-
-    float yPos;
-    bool refresh = false;
-    bool hidden = true;
-    float windowWidth;
-
-    std::vector <MakeCard> Cards;
-
+class NewHand : public HandInteraction {
 
 public:
 
 	bool adjustTop;
 	bool isHuman;
 
-    NewHand(float yPosP) {
+    NewHand(float yPosP) : HandInteraction() {
 
         yPos = yPosP;
         adjustTop = false;
 
     }
 
-	NewHand(sf::RenderWindow &window, bool adjustTopP) {
+	NewHand(sf::RenderWindow &window, bool adjustTopP) : HandInteraction() {
 
 		adjustTop = adjustTopP;
 		refreshPos(window);
 
-    }
-
-    int lastCard(){
-        return Cards.size()-1;
-    }
-
-    MakeCard getCard(int toGet){
-        return Cards[toGet];
-    }
-
-	MakeCard getCard(){
-        return Cards[lastCard()];
-    }
-
-    void addCard(MakeCard toInsert) {
-        Cards.push_back(toInsert);
-        if (hidden) {Cards[lastCard()].hide();}
-        else {Cards[lastCard()].show();};
-        refresh = true;
-
-    }
-
-    void eraseCard (int toErase){
-        if (Cards.empty()) {return;}
-        Cards.erase(Cards.begin()+(toErase));
-        refresh = true;
-
-    }
-
-    MakeCard grabCard (int toGrab) {
-        MakeCard temp = Cards[toGrab];
-        eraseCard(toGrab);
-        return temp;
-    }
-
-	MakeCard grabCard () { // Grabs the last card if no value is specified
-        return grabCard(lastCard());
-    }
-
-    void colorWild(int toColor){
-    	Cards[toColor].colorWild();
-    }
-
-    void disable(int toDisable) {
-    	Cards[toDisable].enable = false;
-    }
-
-    void disableAllButColor(MakeCard toDisable){
-    	for (int i = 0; i < Cards.size(); i++) {
-			Cards[i].enable = false;
-			if (toDisable.getColor()==Cards[i].getColor()) { Cards[i].enable = true; }
-			if (Cards[i].isWild()) { Cards[i].enable = false; }
-		}
-    }
-
-	void disableAll() {
-    	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = false;}
-    }
-
-    void enableAll(){
-    	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = true;}
-    }
-
-    bool noMovementsLeft(){
-		for (int i = 0; i < Cards.size(); i++) {
-			if (Cards[i].enable) {return false;}
-		}
-		return true;
-    }
-
-    void bringToFront (int toBring) {
-        addCard(Cards[toBring]);
-        eraseCard(toBring);
-    }
-
-    void hide(){
-        for (int i = 0; i < Cards.size(); i++) {Cards[i].hide();hidden = true;}
-        hidden = true;
-    }
-
-    void show(){
-        for (int i = 0; i < Cards.size(); i++) {Cards[i].show();hidden = false;}
-        hidden = false;
     }
 
     int hitbox (sf::Vector2f mouse){ // Checks hitbox against all cards, returns position of the matching card

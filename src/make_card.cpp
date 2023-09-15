@@ -1,9 +1,5 @@
 #include "make_card.h"
 
-float xPos, yPos; // Use these to quickly set the X/Y position of the card
-
-bool enable; // Enable hitbox
-
 MakeCard::MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, cardNumP sets the type of card and texture
 
 	initCard(cardNumP);

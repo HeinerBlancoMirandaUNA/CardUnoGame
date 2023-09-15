@@ -7,7 +7,7 @@ class MakeCard
 {
 public:
 
-    float xPos, yPos; // Use these to quickly set the X/Y position of the card
+    float xPos, yPos;
 	bool enable;
     MakeCard(int cardNumP, sf::Texture &texture);
     MakeCard(int cardNumP);
