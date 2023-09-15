@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <vector>
 
-class NewDeck : public NewHand {
+class NewDeck : public HandInteraction {
 
 protected:
     float xPos;
@@ -15,9 +15,10 @@ protected:
 
 public:
 
-    NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow &window) : NewHand(yPosP) { // Use this constructor to create Deck object
+    NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow &window) : HandInteraction() { // Use this constructor to create Deck object
 
         xPos = xPosP;
+        yPos = yPosP;
         autoPurge = false;
 
         // Builds the entire card set
@@ -44,9 +45,10 @@ public:
 
     }
 
-    NewDeck (float xPosP, float yPosP,sf::RenderWindow &window) : NewHand(yPosP) { // Use this constructor to create the Wastepile object
+    NewDeck (float xPosP, float yPosP,sf::RenderWindow &window) : HandInteraction() { // Use this constructor to create the Wastepile object
 
         xPos = xPosP;
+        yPos = yPosP;
         hidden = false;
         autoPurge = true;
         refreshPos(window);

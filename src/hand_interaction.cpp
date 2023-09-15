@@ -1,6 +1,5 @@
 #include "hand_interaction.h"
 
-
 HandInteraction::HandInteraction()
 {
 	cout<<"Inheritance Successful"<<endl;
