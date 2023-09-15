@@ -46,9 +46,10 @@
 			<Add option="-DSFML_STATIC" />
 		</Compiler>
 		<Unit filename="cards.hpp" />
-		<Unit filename="cardstorage.hpp" />
 		<Unit filename="gamelogic.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="newdeck.hpp" />
+		<Unit filename="newhand.hpp" />
 		<Unit filename="userinteraction.hpp" />
 		<Extensions>
 			<code_completion />

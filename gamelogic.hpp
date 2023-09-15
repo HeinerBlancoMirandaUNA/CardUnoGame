@@ -65,6 +65,8 @@ Choice cpu() {
 	}
 	cpuTimer = 0;
 
+
+
 	return {3,0};
 }
 
@@ -88,13 +90,21 @@ void thisTurn(NewHand Players[], NewDeck &Deck, NewDeck &Wastepile) {
 		// These if statements should be placed on a different function
 		// Said function decides if the player can only throw multiple
 		// cards or a single one
+
 		if (!(Wastepile.getCard().getColor()==last.getColor())) {my.action = 3;}
 		if (last.isWild()) {my.action = 3;}
+		if (last.getType()=='D') { my.action = 3;}
+
+
+
 		Wastepile.addCard(Player.grabCard(my.card));
 		Player.disableAllButColor(last);
 		Deck.disableAll();
 
+
+
 		if (Player.noMovementsLeft()) {my.action = 3;}
+		if (last.getType()=='S') { my.action = 1; Deck.enableAll(); Player.enableAll(); }
 
 	}
 
