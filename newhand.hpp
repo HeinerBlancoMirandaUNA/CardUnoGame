@@ -1,33 +1,24 @@
 #include <cstdlib>
 #include <vector>
 
-class NewHand : public HandInteraction {
+class NewHand : public HandControl {
 
 public:
 
 	bool adjustTop;
-	bool isHuman;
 
-    NewHand(float yPosP) : HandInteraction() {
+    NewHand(float yPosP) : HandControl() {
 
         yPos = yPosP;
         adjustTop = false;
 
     }
 
-	NewHand(sf::RenderWindow &window, bool adjustTopP) : HandInteraction() {
+	NewHand(sf::RenderWindow &window, bool adjustTopP) : HandControl() {
 
 		adjustTop = adjustTopP;
 		refreshPos(window);
 
-    }
-
-    int hitbox (sf::Vector2f mouse){ // Checks hitbox against all cards, returns position of the matching card
-        for (int i = Cards.size(); i > 0 ;) {
-            i--;
-            if (Cards[i].hitbox(mouse)){return i;}
-        }
-        return -1;
     }
 
     void drawOn (sf::RenderWindow &window){ // Draws all of it's cards on the screen

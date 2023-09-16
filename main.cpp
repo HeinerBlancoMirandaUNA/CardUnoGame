@@ -2,10 +2,12 @@
 #include <string.h>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
+#include "./include/choice.h"
 #include "./include/make_card.h"
 #include "./include/hand_interaction.h"
+#include "./include/hand_control.h"
 #include "./newhand.hpp"
-#include "./newdeck.hpp"
+//#include "./newdeck.hpp"
 #include "./userinteraction.hpp"
 #include "./gamelogic.hpp"
 
@@ -60,6 +62,8 @@ int main(int argc, char* argv[])
         sf::Event event;
         playerInput(event,window);
 
+
+		//Players[turn].choice();
         thisTurn(Players,Deck,Wastepile);
 
 

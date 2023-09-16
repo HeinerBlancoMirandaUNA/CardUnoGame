@@ -1,10 +1,6 @@
 #include <SFML/Graphics.hpp>
 int cpuTimer = 0;
 
-struct Choice {
-	int action, card;
-};
-
 bool isAllowed (MakeCard toThrow, MakeCard last){
 	if ((last.getColor() == 0)&&(toThrow.getColor() == 0)) { return false; }
 	if (last.getColor() == 0) {return true;}
@@ -27,60 +23,12 @@ void switchTurn (NewHand Players[]) {
 
 }
 
-Choice human(NewHand &Player, NewDeck &Deck, NewDeck &Wastepile) {
-
-	int thisCard = 0;
-	if (click > 0) {thisCard = Player.hitbox(mousePosition);}
-
-	if ((click == 1)&&(thisCard > -1)) {
-		return {1,thisCard};
-	}
-
-	if ((click == 2)&&(thisCard > -1)) {
-		return {2,thisCard};
-	}
-
-	if ((click == 1)&&Wastepile.hitbox(mousePosition)) {
-		return {3,0};
-	}
-
-	if (click == 3) {
-		return {3,0};
-    }
-
-	if ((click == 1)&&Deck.hitbox(mousePosition)) {
-		return {4,0};
-	}
-
-    return {0,0};
-
-}
-
-Choice cpu() {
-	std::cout<<"Cpu";
-	cpuTimer++;
-	if (cpuTimer < 30){
-
-		return {0,0};
-	}
-	cpuTimer = 0;
-
-
-
-	return {3,0};
-}
-
 void thisTurn(NewHand Players[], NewDeck &Deck, NewDeck &Wastepile) {
 
 	NewHand &Player = Players[turn];
 	Choice my = {0,0};
 
-	if (Player.isHuman) {
-		my = human(Player,Deck,Wastepile);
-	}
-	else {
-		my = cpu();
-	}
+	my = Player.choice(Deck, Wastepile, click, mousePosition);
 
 	if (my.action == 1) {
 		if (!isAllowed(Player.getCard(my.card), Wastepile.getCard())) {	return;	}
