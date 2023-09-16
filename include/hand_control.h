@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "./choice.h"
 #include "./storage_interaction.h"
-#include "../newdeck.hpp"
+#include "./new_deck.h"
 
 class HandControl : public StorageInteraction
 {

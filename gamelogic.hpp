@@ -26,9 +26,8 @@ void switchTurn (NewHand Players[]) {
 void thisTurn(NewHand Players[], NewDeck &Deck, NewDeck &Wastepile) {
 
 	NewHand &Player = Players[turn];
-	Choice my = {0,0};
 
-	my = Player.choice(Deck, Wastepile, click, mousePosition);
+	Choice my = Player.choice(Deck, Wastepile, click, mousePosition);
 
 	if (my.action == 1) {
 		if (!isAllowed(Player.getCard(my.card), Wastepile.getCard())) {	return;	}

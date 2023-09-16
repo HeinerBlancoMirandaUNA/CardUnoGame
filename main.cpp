@@ -5,9 +5,9 @@
 #include "./include/choice.h"
 #include "./include/make_card.h"
 #include "./include/storage_interaction.h"
+#include "./include/new_deck.h"
 #include "./include/hand_control.h"
 #include "./newhand.hpp"
-//#include "./newdeck.hpp"
 #include "./userinteraction.hpp"
 #include "./gamelogic.hpp"
 
