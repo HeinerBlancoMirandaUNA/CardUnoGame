@@ -1,10 +1,51 @@
 #include "hand_control.h"
 
+HandControl::HandControl() : StorageInteraction() {cout<<"^^^^^^HandControl"<<endl; };
+
 Choice HandControl::choice (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse) {
 
-	if (isHuman) { return human(Deck,Wastepile,click,mouse); }
-	else { return cpuPlayer(Deck); }
+	Choice current;
+	if (isHuman) { current = human(Deck,Wastepile,click,mouse); }
+	else { current = cpuPlayer(Deck); }
 
+	if (current.action == 1) {
+
+		if (!isAllowed(current.card, Wastepile.getCard())) { return current;}
+
+		MakeCard last = getCard(current.card);
+
+		if (!(Wastepile.getCard().getColor()==last.getColor())) {current.action = 3;}
+		if (last.isWild()) {current.action = 3; }
+		if (last.getType()=='D') {current.action = 3;}
+
+		Wastepile.addCard(grabCard(current.card));
+		disableAllButColor(last);
+		Deck.disableAll();
+
+		if (noMovementsLeft()) {current.action = 3;}
+		if (last.getType()=='S') { current.action = 1; Deck.enableAll(); enableAll(); }
+
+	}
+
+    if (current.action == 2) {
+		colorWild(current.card);
+		bringToFront(current.card);
+    }
+
+    if (current.action == 4) { addCard(Deck.grabCard()); }
+
+	return current;
+
+}
+
+bool HandControl::isAllowed (int thisCard, MakeCard last){
+	MakeCard toThrow = getCard(thisCard);
+	if ((last.getColor() == 0)&&(toThrow.getColor() == 0)) { return false; }
+	if (last.getColor() == 0) {return true;}
+	if ((toThrow.getColor() > 0)&&(toThrow.isWild())) {return true;}
+	if (toThrow.getColor() == last.getColor()) {return true;}
+	if (toThrow.getType() == last.getType()) {return true;}
+	return false;
 }
 
 int HandControl::hitbox (sf::Vector2f mouse){ // Checks hitbox against all cards, returns position of the matching card
@@ -43,7 +84,7 @@ Choice HandControl::human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Ve
 }
 
 Choice HandControl::cpuPlayer (NewDeck &Deck){
-	std::cout<<"Cpu";
+	//std::cout<<"Cpu";
 	cpuTimer++;
 	if (cpuTimer < 30){
 		return {0,0};

@@ -1,15 +1,4 @@
 #include <SFML/Graphics.hpp>
-//int cpuTimer = 0;
-
-bool isAllowed (MakeCard toThrow, MakeCard last){
-	if ((last.getColor() == 0)&&(toThrow.getColor() == 0)) { return false; }
-	if (last.getColor() == 0) {return true;}
-	if ((toThrow.getColor()>0)&&(toThrow.isWild())) {return true;}
-	if (toThrow.getColor() == last.getColor()) {return true;}
-	if (toThrow.getType() == last.getType()) {return true;}
-	return false;
-
-}
 
 void handicap(NewHand &Player, int type) {
 
@@ -27,40 +16,8 @@ void thisTurn(NewHand Players[], NewDeck &Deck, NewDeck &Wastepile) {
 
 	NewHand &Player = Players[turn];
 
-	Choice my = Player.choice(Deck, Wastepile, click, mousePosition);
+	Choice current = Player.choice(Deck, Wastepile, click, mousePosition);
 
-	if (my.action == 1) {
-		if (!isAllowed(Player.getCard(my.card), Wastepile.getCard())) {	return;	}
-
-
-		MakeCard last = Player.getCard(my.card);
-		// These if statements should be placed on a different function
-		// Said function decides if the player can only throw multiple
-		// cards or a single one
-
-		if (!(Wastepile.getCard().getColor()==last.getColor())) {my.action = 3;}
-		if (last.isWild()) {my.action = 3;}
-		if (last.getType()=='D') { my.action = 3;}
-
-
-
-		Wastepile.addCard(Player.grabCard(my.card));
-		Player.disableAllButColor(last);
-		Deck.disableAll();
-
-
-
-		if (Player.noMovementsLeft()) {my.action = 3;}
-		if (last.getType()=='S') { my.action = 1; Deck.enableAll(); Player.enableAll(); }
-
-	}
-
-    if (my.action == 2) {
-		Player.colorWild(my.card);
-		Player.bringToFront(my.card);
-    }
-
-    if (my.action == 3) { switchTurn(Players); Deck.enableAll(); }
-    if (my.action == 4) { Player.addCard(Deck.grabCard()); }
+    if (current.action == 3) { switchTurn(Players); Deck.enableAll(); }
 
 }
