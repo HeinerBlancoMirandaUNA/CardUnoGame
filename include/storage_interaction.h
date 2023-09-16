@@ -33,6 +33,7 @@ class StorageInteraction // STORAGE_INTERACTION_H
 		void bringToFront (int toBring) ;
 		void hide();
 		void show();
+		bool isFull();
 
 };
 

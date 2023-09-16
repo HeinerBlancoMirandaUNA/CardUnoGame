@@ -86,5 +86,12 @@ void StorageInteraction::show(){
 	hidden = false;
 }
 
+bool StorageInteraction::isFull(){
+	if (lastCard() > 22){
+		return true;
+	}
+	return false;
+}
+
 
 

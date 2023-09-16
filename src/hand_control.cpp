@@ -8,9 +8,12 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 	if (isHuman) { current = human(Deck,Wastepile,click,mouse); }
 	else { current = cpuPlayer(Deck); }
 
+	if (isFull()) {Deck.disableAll();}
+
 	if (current.action == 1) {
 
 		if (!isAllowed(current.card, Wastepile.getCard())) { return true;}
+		if (!isFull()) {Deck.enableAll();}
 
 		MakeCard last = getCard(current.card);
 
@@ -34,7 +37,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 
     if (current.action == 3) {return false;}
 
-    if (current.action == 4) { addCard(Deck.grabCard()); }
+    if (current.action == 4) {	addCard(Deck.grabCard()); }
 
 	return true;
 
