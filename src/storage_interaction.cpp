@@ -1,54 +1,54 @@
-#include "hand_interaction.h"
+#include "storage_interaction.h"
 
-HandInteraction::HandInteraction()
+StorageInteraction::StorageInteraction()
 {
 	cout<<"Inheritance Successful"<<endl;
 }
 
-int HandInteraction::lastCard(){
+int StorageInteraction::lastCard(){
 	return Cards.size()-1;
 }
 
-MakeCard HandInteraction::getCard(int toGet){
+MakeCard StorageInteraction::getCard(int toGet){
 	return Cards[toGet];
 }
 
-MakeCard HandInteraction::getCard(){
+MakeCard StorageInteraction::getCard(){
 	return Cards[lastCard()];
 }
 
-void HandInteraction::addCard(MakeCard toInsert) {
+void StorageInteraction::addCard(MakeCard toInsert) {
 	Cards.push_back(toInsert);
 	if (hidden) {Cards[lastCard()].hide();}
 	else {Cards[lastCard()].show();};
 	refresh = true;
 }
 
-void HandInteraction::eraseCard (int toErase){
+void StorageInteraction::eraseCard (int toErase){
 	if (Cards.empty()) {return;}
 	Cards.erase(Cards.begin()+(toErase));
 	refresh = true;
 }
 
-MakeCard HandInteraction::grabCard (int toGrab) {
+MakeCard StorageInteraction::grabCard (int toGrab) {
 	MakeCard temp = Cards[toGrab];
 	eraseCard(toGrab);
 	return temp;
 }
 
-MakeCard HandInteraction::grabCard () { // Grabs the last card if no value is specified
+MakeCard StorageInteraction::grabCard () { // Grabs the last card if no value is specified
 	return grabCard(lastCard());
 }
 
-void HandInteraction::colorWild(int toColor){
+void StorageInteraction::colorWild(int toColor){
 	Cards[toColor].colorWild();
 }
 
-void HandInteraction::disable(int toDisable) {
+void StorageInteraction::disable(int toDisable) {
 	Cards[toDisable].enable = false;
 }
 
-void HandInteraction::disableAllButColor(MakeCard toDisable){
+void StorageInteraction::disableAllButColor(MakeCard toDisable){
 	for (int i = 0; i < Cards.size(); i++) {
 		Cards[i].enable = false;
 		if (toDisable.getColor()==Cards[i].getColor()) { Cards[i].enable = true; }
@@ -56,32 +56,32 @@ void HandInteraction::disableAllButColor(MakeCard toDisable){
 	}
 }
 
-void HandInteraction::disableAll() {
+void StorageInteraction::disableAll() {
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = false;}
 }
 
-void HandInteraction::enableAll(){
+void StorageInteraction::enableAll(){
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = true;}
 }
 
-bool HandInteraction::noMovementsLeft(){
+bool StorageInteraction::noMovementsLeft(){
 	for (int i = 0; i < Cards.size(); i++) {
 		if (Cards[i].enable) {return false;}
 	}
 	return true;
 }
 
-void HandInteraction::bringToFront (int toBring) {
+void StorageInteraction::bringToFront (int toBring) {
 	addCard(Cards[toBring]);
 	eraseCard(toBring);
 }
 
-void HandInteraction::hide(){
+void StorageInteraction::hide(){
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].hide();hidden = true;}
 	hidden = true;
 }
 
-void HandInteraction::show(){
+void StorageInteraction::show(){
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].show();hidden = false;}
 	hidden = false;
 }

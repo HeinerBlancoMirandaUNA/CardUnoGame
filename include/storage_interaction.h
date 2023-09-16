@@ -1,12 +1,12 @@
-#ifndef HAND_INTERACTION_H
-#define HAND_INTERACTION_H
+#ifndef STORAGE_INTERACTION_H
+#define STORAGE_INTERACTION_H
 #include <vector>
 #include <iostream>
 #include "./make_card.h"
 using std::cout;
 using std::endl;
 
-class HandInteraction
+class StorageInteraction // STORAGE_INTERACTION_H
 {
 	protected:
 		float yPos;
@@ -16,7 +16,7 @@ class HandInteraction
 		std::vector <MakeCard> Cards;
 
 	public:
-		HandInteraction();
+		StorageInteraction();
 		int lastCard();
 		MakeCard getCard(int toGet);
 		MakeCard getCard();
@@ -36,4 +36,4 @@ class HandInteraction
 
 };
 
-#endif // HAND_INTERACTION_H
+#endif // STORAGE_INTERACTION_H

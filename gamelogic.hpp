@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-int cpuTimer = 0;
+//int cpuTimer = 0;
 
 bool isAllowed (MakeCard toThrow, MakeCard last){
 	if ((last.getColor() == 0)&&(toThrow.getColor() == 0)) { return false; }

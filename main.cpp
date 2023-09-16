@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "./include/choice.h"
 #include "./include/make_card.h"
-#include "./include/hand_interaction.h"
+#include "./include/storage_interaction.h"
 #include "./include/hand_control.h"
 #include "./newhand.hpp"
 //#include "./newdeck.hpp"
