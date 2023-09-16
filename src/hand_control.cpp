@@ -2,7 +2,7 @@
 
 HandControl::HandControl() : StorageInteraction() {cout<<"^^^^^^HandControl"<<endl; };
 
-Choice HandControl::choice (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse) {
+bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse) {
 
 	Choice current;
 	if (isHuman) { current = human(Deck,Wastepile,click,mouse); }
@@ -10,7 +10,7 @@ Choice HandControl::choice (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 
 	if (current.action == 1) {
 
-		if (!isAllowed(current.card, Wastepile.getCard())) { return current;}
+		if (!isAllowed(current.card, Wastepile.getCard())) { return true;}
 
 		MakeCard last = getCard(current.card);
 
@@ -32,9 +32,11 @@ Choice HandControl::choice (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 		bringToFront(current.card);
     }
 
+    if (current.action == 3) {return false;}
+
     if (current.action == 4) { addCard(Deck.grabCard()); }
 
-	return current;
+	return true;
 
 }
 

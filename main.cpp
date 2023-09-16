@@ -8,8 +8,8 @@
 #include "./include/new_deck.h"
 #include "./include/hand_control.h"
 #include "./include/new_hand.h"
-#include "./userinteraction.hpp"
-#include "./gamelogic.hpp"
+#include "./user_interaction.hpp"
+#include "./player_turn.hpp"
 
 int main(int argc, char* argv[])
 {
