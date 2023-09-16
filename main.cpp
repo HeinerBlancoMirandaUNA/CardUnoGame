@@ -7,7 +7,7 @@
 #include "./include/storage_interaction.h"
 #include "./include/new_deck.h"
 #include "./include/hand_control.h"
-#include "./newhand.hpp"
+#include "./include/new_hand.h"
 #include "./userinteraction.hpp"
 #include "./gamelogic.hpp"
 
@@ -62,10 +62,7 @@ int main(int argc, char* argv[])
         sf::Event event;
         playerInput(event,window);
 
-
-		//Players[turn].choice();
         thisTurn(Players,Deck,Wastepile);
-
 
         drawOn(window,background,Players,Deck,Wastepile);
 
