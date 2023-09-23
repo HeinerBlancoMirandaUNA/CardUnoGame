@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     Wastepile.addCard(Deck.grabCard());
 
     Players[0].isHuman = true;
-    Players[1].isHuman = false;
+    Players[1].isHuman = true;
 
     // Game Loop
 

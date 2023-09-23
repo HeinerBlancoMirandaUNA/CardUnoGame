@@ -10,12 +10,14 @@ class HandControl : public StorageInteraction
 public:
 	HandControl();
 	bool isHuman;
+	bool exchangeRequested();
 	bool isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse);
 	bool isAllowed (int thisCard, MakeCard last);
 
 private:
 	int cpuTimer = 0;
 	int hitbox (sf::Vector2f mouse);
+	bool lastCardWasZero;
 	Choice human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse);
 	Choice cpuPlayer (NewDeck &Deck);
 };

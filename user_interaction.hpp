@@ -4,6 +4,7 @@
 
 int turn = 0;
 int click = 0;
+char dbgkey = 0;
 bool windowResized = true;
 sf::Vector2f mousePosition;
 sf::Vector2i resolution(800,480);
@@ -29,6 +30,7 @@ void tellUser(int line) {
 void playerInput(sf::Event &event, sf::RenderWindow &window){
 
 	click = 0;
+	dbgkey = 0;
 
     while (window.pollEvent(event)) {
 		if (event.type == sf::Event::MouseButtonPressed) {
@@ -40,8 +42,11 @@ void playerInput(sf::Event &event, sf::RenderWindow &window){
 		if (event.type == sf::Event::KeyPressed){
 
 			if (event.key.code == sf::Keyboard::Escape){ window.close(); }
+			if (event.key.code == sf::Keyboard::Num1){ dbgkey = '1'; }
+			if (event.key.code == sf::Keyboard::Num2){ dbgkey = '2'; }
 
 		}
+
 
 		if (event.type == sf::Event::Resized) {
 			sf::Vector2i lastPosition = window.getPosition();

@@ -1,6 +1,11 @@
 #include <SFML/Graphics.hpp>
 
 void switchTurn (NewHand Players[]) {
+
+	if (Players[turn].exchangeRequested()){
+		Players[1].exchangeCardsWith(Players[0]);
+	}
+
 	turn++; if (turn > 1) {turn = 0;}
 	if (turn == 0) {Players[0].show();Players[1].hide();}
 	if (turn == 1) {Players[0].hide();Players[1].show();}

@@ -5,6 +5,7 @@ HandControl::HandControl() : StorageInteraction() {cout<<"^^^^^^HandControl"<<en
 bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse) {
 
 	Choice current;
+	lastCardWasZero = false;
 	if (isHuman) { current = human(Deck,Wastepile,click,mouse); }
 	else { current = cpuPlayer(Deck); }
 
@@ -18,6 +19,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 		MakeCard last = getCard(current.card);
 
 		if (!(Wastepile.getCard().getColor()==last.getColor())) {current.action = 3;}
+
 		if (last.isWild()) {current.action = 3; }
 		if (last.getType()=='D') {current.action = 3;}
 
@@ -26,6 +28,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 		Deck.disableAll();
 
 		if (noMovementsLeft()) {current.action = 3;}
+		if (last.getType()=='0') { lastCardWasZero = true; ; current.action = 3;} // This will handle the card swithching beetween players
 		if (last.getType()=='S') { current.action = 1; Deck.enableAll(); enableAll(); }
 
 	}
@@ -41,6 +44,10 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 
 	return true;
 
+}
+
+bool HandControl::exchangeRequested(){
+	return lastCardWasZero;
 }
 
 bool HandControl::isAllowed (int thisCard, MakeCard last){

@@ -50,3 +50,19 @@ void NewHand::refreshPos(sf::RenderWindow &window){
 
 }
 
+void NewHand::exchangeCardsWith(NewHand &Player) {
+
+	int totalCards = Player.lastCard();
+	cout<<totalCards<<endl;
+
+	while (lastCard()>-1){
+		Player.addCard(grabCard(0));
+	}
+
+	while (totalCards > -1){
+		addCard(Player.grabCard(0));
+		totalCards--;
+	}
+
+}
+

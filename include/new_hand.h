@@ -12,6 +12,7 @@ public:
     void drawOn (sf::RenderWindow &window);
     void refreshPos();
 	void refreshPos(sf::RenderWindow &window);
+	void exchangeCardsWith(NewHand &Player);
 
 };
 
