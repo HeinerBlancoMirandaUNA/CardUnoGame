@@ -5,6 +5,12 @@ StorageInteraction::StorageInteraction()
 	cout<<"Inheritance Successful"<<endl;
 }
 
+StorageInteraction::~StorageInteraction()
+{
+	cout<<"StorageInteraction - Destruction Successful"<<endl;
+}
+
+
 int StorageInteraction::lastCard(){
 	return Cards.size()-1;
 }
@@ -48,27 +54,12 @@ void StorageInteraction::disable(int toDisable) {
 	Cards[toDisable].enable = false;
 }
 
-void StorageInteraction::disableAllButColor(MakeCard toDisable){
-	for (int i = 0; i < Cards.size(); i++) {
-		Cards[i].enable = false;
-		if (toDisable.getColor()==Cards[i].getColor()) { Cards[i].enable = true; }
-		if (Cards[i].isWild()) { Cards[i].enable = false; }
-	}
-}
-
 void StorageInteraction::disableAll() {
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = false;}
 }
 
 void StorageInteraction::enableAll(){
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].enable = true;}
-}
-
-bool StorageInteraction::noMovementsLeft(){
-	for (int i = 0; i < Cards.size(); i++) {
-		if (Cards[i].enable) {return false;}
-	}
-	return true;
 }
 
 void StorageInteraction::bringToFront (int toBring) {
@@ -86,12 +77,7 @@ void StorageInteraction::show(){
 	hidden = false;
 }
 
-bool StorageInteraction::isFull(){
-	if (lastCard() > 22){
-		return true;
-	}
-	return false;
-}
+
 
 
 

@@ -6,20 +6,26 @@
 
 class NewDeck : public StorageInteraction
 {
-protected:
+private:
     float xPos;
 	float windowHeight;
     bool autoPurge; // Tells Wastepile to delete unused cards
     void createCard (int cardNum, sf::Texture &texture);
+    int cardCount;
 
 public:
 
     NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow &window);
     NewDeck (float xPosP, float yPosP,sf::RenderWindow &window) ;
+    ~NewDeck();
     bool hitbox (sf::Vector2f mouse) ;
     void drawOn (sf::RenderWindow &window) ;
     void refreshPos();
     void refreshPos(sf::RenderWindow &window);
+    void resetCount();
+    void increaseCountBy(int thisAmount);
+    int getCardCount();
+
 
 };
 

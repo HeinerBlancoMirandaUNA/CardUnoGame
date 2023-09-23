@@ -14,6 +14,10 @@ NewHand::NewHand(sf::RenderWindow &window, bool adjustTopP) : HandControl() {
 
 }
 
+NewHand::~NewHand(){
+	cout<<"Hand Destroyed"<<endl;
+}
+
 void NewHand::drawOn (sf::RenderWindow &window){ // Draws all of it's cards on the screen
 	if (refresh){refreshPos();}
 	refresh = false;

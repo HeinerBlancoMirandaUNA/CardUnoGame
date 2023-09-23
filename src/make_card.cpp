@@ -1,4 +1,7 @@
 #include "make_card.h"
+#include <iostream>
+using std::cout;
+using std::endl;
 
 MakeCard::MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, cardNumP sets the type of card and texture
 
@@ -9,6 +12,10 @@ MakeCard::MakeCard(int cardNumP, sf::Texture &texture){ // Creates a card, cardN
 
 MakeCard::MakeCard(int cardNumP){ // Creates card without texture
 	initCard(cardNumP);
+}
+
+MakeCard::~MakeCard(){
+	cout<<"Card Destroyed"<<endl;
 }
 
 void MakeCard::setTexture (sf::Texture &texture){

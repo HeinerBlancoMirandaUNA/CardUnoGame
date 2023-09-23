@@ -1,8 +1,12 @@
 #include "new_deck.h"
 
 void NewDeck::createCard (int cardNum, sf::Texture &texture){
-        Cards.push_back(cardNum);
-        Cards[lastCard()].setTexture(texture);
+	Cards.push_back(cardNum);
+	Cards[lastCard()].setTexture(texture);
+}
+
+NewDeck::~NewDeck(){
+	cout<<"Deck Destroyed"<<endl;
 }
 
 NewDeck::NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow &window) : StorageInteraction() { // Use this constructor to create Deck object
@@ -10,6 +14,7 @@ NewDeck::NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow
 	xPos = xPosP;
 	yPos = yPosP;
 	autoPurge = false;
+	resetCount();
 
 	// Builds the entire card set
 
@@ -26,11 +31,12 @@ NewDeck::NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow
 			if ((Cards[i].getType()) == '0') {eraseCard(i+1);}
 		}
 	}
-	refreshPos(window);
 
 	// Shuffles the cards
 
 	for (int i = 0; i < 2000; i++) { bringToFront(rand()%107); }
+
+	refreshPos(window);
 
 }
 
@@ -41,6 +47,7 @@ NewDeck::NewDeck (float xPosP, float yPosP,sf::RenderWindow &window) : StorageIn
 	hidden = false;
 	autoPurge = true;
 	refreshPos(window);
+	resetCount();
 
 }
 
@@ -61,7 +68,7 @@ void NewDeck::drawOn (sf::RenderWindow &window) { // Draws only the last 4 cards
 	}
 
 	if (autoPurge && (Cards.size() > 5)) {eraseCard(Cards.size() - 5);} // Erase previously used cards
-
+	cout<<cardCount<<endl;
 }
 
 void NewDeck::refreshPos() { // Aligns the last 4 cards, resembles the look of a card deck...
@@ -69,14 +76,21 @@ void NewDeck::refreshPos() { // Aligns the last 4 cards, resembles the look of a
 	if (Cards.empty()) {return;}
 	float xPosP = (windowWidth/2)-xPos;
 	float yPosP = (windowHeight/2)-yPos;
+
 	int i = 0;
 	if (Cards.size() > 4) {i = Cards.size() - 4;}
-	Cards[i].xPos = xPosP; Cards[i].yPos = yPosP;
+
+	for (int j; j < i; j++){
+		Cards[j].xPos = xPosP; Cards[j].yPos = yPosP;
+	}
+
 	for (;i < Cards.size() ; i++) {
-		Cards[i].initAnim(100,xPosP,yPosP,17);
 		xPosP = xPosP - 5;
 		yPosP = yPosP - 5;
+		Cards[i].initAnim(100,xPosP,yPosP,17);
+
 	}
+
 }
 
 void NewDeck::refreshPos(sf::RenderWindow &window){
@@ -86,3 +100,14 @@ void NewDeck::refreshPos(sf::RenderWindow &window){
 
 }
 
+void NewDeck::resetCount(){
+	cardCount = 0;
+}
+
+void NewDeck::increaseCountBy(int thisAmount){
+	cardCount = cardCount + thisAmount;
+}
+
+int NewDeck::getCardCount(){
+	return cardCount;
+}

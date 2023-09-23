@@ -17,6 +17,7 @@ class StorageInteraction // STORAGE_INTERACTION_H
 
 	public:
 		StorageInteraction();
+		~StorageInteraction();
 		int lastCard();
 		MakeCard getCard(int toGet);
 		MakeCard getCard();
@@ -26,14 +27,11 @@ class StorageInteraction // STORAGE_INTERACTION_H
 		MakeCard grabCard (); // Grabs the last card if no value is specified
 		void colorWild(int toColor);
 		void disable(int toDisable) ;
-		void disableAllButColor(MakeCard toDisable);
-		void disableAll() ;
+		void disableAll();
 		void enableAll();
-		bool noMovementsLeft();
 		void bringToFront (int toBring) ;
 		void hide();
 		void show();
-		bool isFull();
 
 };
 

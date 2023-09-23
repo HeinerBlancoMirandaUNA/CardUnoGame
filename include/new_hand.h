@@ -9,6 +9,7 @@ public:
 	bool adjustTop;
     NewHand(float yPosP);
 	NewHand(sf::RenderWindow &window, bool adjustTopP);
+	~NewHand();
     void drawOn (sf::RenderWindow &window);
     void refreshPos();
 	void refreshPos(sf::RenderWindow &window);
