@@ -15,7 +15,7 @@ MakeCard::MakeCard(int cardNumP){ // Creates card without texture
 }
 
 MakeCard::~MakeCard(){
-	cout<<"Card Destroyed"<<endl;
+
 }
 
 void MakeCard::setTexture (sf::Texture &texture){

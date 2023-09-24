@@ -8,8 +8,10 @@
 #include "./include/new_deck.h"
 #include "./include/hand_control.h"
 #include "./include/new_hand.h"
+#include "./include/menu.h"
 #include "./user_interaction.hpp"
 #include "./player_turn.hpp"
+
 
 int main(int argc, char* argv[])
 {
@@ -22,49 +24,51 @@ int main(int argc, char* argv[])
 		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode()), "", sf::Style::None);
 	}
 
-	tellUser(0);
-
     sf::Texture backgroundTexture;
     backgroundTexture.loadFromFile("./resources/felt.png");
     backgroundTexture.setSmooth(true);
     sf::Sprite background;
     background.setTexture(backgroundTexture);
 
+    sf::Texture menuTexture;
+    menuTexture.loadFromFile("./resources/menu.png");
+    GameMenu Menu(menuTexture);
+
     sf::Texture unoCards;
     unoCards.loadFromFile("./resources/unocards.png");
     unoCards.setSmooth(true);
 
     srand (time(NULL));
+	NewHand Players[2];
 
-    // Setting up objects for new Game
+	// Game Objects
 
-    NewHand Players[] = { NewHand(window,false) , NewHand(window,true) };
-	Players[0].show();
+	Players[0].init(window,false);
+	Players[1].init(window,true);
 
     NewDeck Deck(-55,50,unoCards,window);
     NewDeck Wastepile(55,50,window);
 
-    for (int i = 0;i < 16;i++){
-        turn++;
-        if (turn > 1) {turn = 0;}
-        Players[turn].addCard(Deck.grabCard());
-
-    }
-    Wastepile.addCard(Deck.grabCard());
-
-    Players[0].isHuman = true;
-    Players[1].isHuman = true;
+	newGame(Players, Deck, Wastepile, window, unoCards, 1);
 
     // Game Loop
 
     while (window.isOpen()){
 
         sf::Event event;
-        playerInput(event,window);
+        playerInput(event,window,Menu);
+
+        if (Menu.event > 0) {
+			newGame(Players, Deck, Wastepile, window, unoCards, Menu.event);
+
+        }
 
         thisTurn(Players,Deck,Wastepile);
 
-        drawOn(window,background,Players,Deck,Wastepile);
+        drawOn(window,background,Players,Deck,Wastepile,Menu);
+
+        window.display();
+
 
     }
     return 0;

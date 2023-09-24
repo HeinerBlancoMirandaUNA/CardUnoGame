@@ -50,6 +50,7 @@
 		<Unit filename="include/choice.h" />
 		<Unit filename="include/hand_control.h" />
 		<Unit filename="include/make_card.h" />
+		<Unit filename="include/menu.h" />
 		<Unit filename="include/new_deck.h" />
 		<Unit filename="include/new_hand.h" />
 		<Unit filename="include/storage_interaction.h" />
@@ -57,6 +58,7 @@
 		<Unit filename="player_turn.hpp" />
 		<Unit filename="src/hand_control.cpp" />
 		<Unit filename="src/make_card.cpp" />
+		<Unit filename="src/menu.cpp" />
 		<Unit filename="src/new_deck.cpp" />
 		<Unit filename="src/new_hand.cpp" />
 		<Unit filename="src/storage_interaction.cpp" />

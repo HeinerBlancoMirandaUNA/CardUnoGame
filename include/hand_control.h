@@ -9,7 +9,8 @@ class HandControl : public StorageInteraction
 {
 public:
 	HandControl();
-	~HandControl();
+	virtual ~HandControl();
+	void reset();
 	bool isHuman;
 	bool exchangeRequested();
 	bool isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse);

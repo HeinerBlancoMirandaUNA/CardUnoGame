@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "./make_card.h"
+
 using std::cout;
 using std::endl;
 
@@ -17,7 +18,8 @@ class StorageInteraction // STORAGE_INTERACTION_H
 
 	public:
 		StorageInteraction();
-		~StorageInteraction();
+		virtual ~StorageInteraction();
+		void reset();
 		int lastCard();
 		MakeCard getCard(int toGet);
 		MakeCard getCard();

@@ -10,6 +10,12 @@ StorageInteraction::~StorageInteraction()
 	cout<<"StorageInteraction - Destruction Successful"<<endl;
 }
 
+void StorageInteraction::reset(){
+
+	while (lastCard()>-1) {eraseCard(0);}
+
+}
+
 
 int StorageInteraction::lastCard(){
 	return Cards.size()-1;

@@ -9,14 +9,33 @@ NewDeck::~NewDeck(){
 	cout<<"Deck Destroyed"<<endl;
 }
 
+void NewDeck::reset(){
+	StorageInteraction::reset();
+	resetCount();
+}
+
 NewDeck::NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow &window) : StorageInteraction() { // Use this constructor to create Deck object
 
 	xPos = xPosP;
 	yPos = yPosP;
 	autoPurge = false;
 	resetCount();
+	rebuildCardset(texture, window); //  This has to stay here, otherwise it will crash
 
-	// Builds the entire card set
+}
+
+NewDeck::NewDeck (float xPosP, float yPosP,sf::RenderWindow &window) : StorageInteraction() { // Use this constructor to create the Wastepile object
+
+	xPos = xPosP;
+	yPos = yPosP;
+	hidden = false;
+	autoPurge = true;
+	refreshPos(window);
+	resetCount();
+
+}
+
+void NewDeck::rebuildCardset (sf::Texture &texture,sf::RenderWindow &window) {
 
 	for (int i= 0; i < 4; i++){createCard(1,texture);}
 	for (int i= 0; i < 4; i++){createCard(6,texture);}
@@ -32,24 +51,10 @@ NewDeck::NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow
 		}
 	}
 
-	// Shuffles the cards
-
 	for (int i = 0; i < 2000; i++) { bringToFront(rand()%107); }
-
 	refreshPos(window);
 
-}
-
-NewDeck::NewDeck (float xPosP, float yPosP,sf::RenderWindow &window) : StorageInteraction() { // Use this constructor to create the Wastepile object
-
-	xPos = xPosP;
-	yPos = yPosP;
-	hidden = false;
-	autoPurge = true;
-	refreshPos(window);
-	resetCount();
-
-}
+};
 
 bool NewDeck::hitbox (sf::Vector2f mouse) { // Checks hitbox against last card only, returns boolean
 	if (Cards.empty()) {return false;}
@@ -68,7 +73,7 @@ void NewDeck::drawOn (sf::RenderWindow &window) { // Draws only the last 4 cards
 	}
 
 	if (autoPurge && (Cards.size() > 5)) {eraseCard(Cards.size() - 5);} // Erase previously used cards
-	cout<<cardCount<<endl;
+	//cout<<cardCount<<endl;
 }
 
 void NewDeck::refreshPos() { // Aligns the last 4 cards, resembles the look of a card deck...

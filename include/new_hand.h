@@ -7,9 +7,9 @@ class NewHand : public HandControl {
 public:
 
 	bool adjustTop;
-    NewHand(float yPosP);
-	NewHand(sf::RenderWindow &window, bool adjustTopP);
+	NewHand();
 	~NewHand();
+	void init(sf::RenderWindow &window, bool adjustTopP);
     void drawOn (sf::RenderWindow &window);
     void refreshPos();
 	void refreshPos(sf::RenderWindow &window);

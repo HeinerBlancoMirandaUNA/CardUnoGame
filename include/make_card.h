@@ -11,7 +11,7 @@ public:
 	bool enable;
     MakeCard(int cardNumP, sf::Texture &texture);
     MakeCard(int cardNumP);
-    ~MakeCard();
+    virtual ~MakeCard();
     void setTexture (sf::Texture &texture);
     void setCard (int cardNumP);
     void quickHide() ;

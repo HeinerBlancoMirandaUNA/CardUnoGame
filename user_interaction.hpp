@@ -4,7 +4,7 @@
 
 int turn = 0;
 int click = 0;
-char dbgkey = 0;
+char fn = 0;
 bool windowResized = true;
 sf::Vector2f mousePosition;
 sf::Vector2i resolution(800,480);
@@ -23,14 +23,10 @@ void loadTextStrings() {
 
 }
 
-void tellUser(int line) {
-	std::cout<<info[line]<<std::endl;
-}
-
-void playerInput(sf::Event &event, sf::RenderWindow &window){
+void playerInput(sf::Event &event, sf::RenderWindow &window, GameMenu &Menu){
 
 	click = 0;
-	dbgkey = 0;
+	fn = 0;
 
     while (window.pollEvent(event)) {
 		if (event.type == sf::Event::MouseButtonPressed) {
@@ -42,8 +38,8 @@ void playerInput(sf::Event &event, sf::RenderWindow &window){
 		if (event.type == sf::Event::KeyPressed){
 
 			if (event.key.code == sf::Keyboard::Escape){ window.close(); }
-			if (event.key.code == sf::Keyboard::Num1){ dbgkey = '1'; }
-			if (event.key.code == sf::Keyboard::Num2){ dbgkey = '2'; }
+			if (event.key.code == sf::Keyboard::F1){ fn = '1'; }
+			if (event.key.code == sf::Keyboard::F2){ fn = '2'; }
 
 		}
 
@@ -58,9 +54,12 @@ void playerInput(sf::Event &event, sf::RenderWindow &window){
 		mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 	}
 
+	Menu.hitbox(mousePosition,click);
+	if (Menu.event == 4) { window.close(); }
+
 }
 
-void drawOn(sf::RenderWindow &window, sf::Sprite &background, NewHand Players[], NewDeck &Deck, NewDeck &Wastepile){
+void drawOn(sf::RenderWindow &window, sf::Sprite &background, NewHand Players[], NewDeck &Deck, NewDeck &Wastepile, GameMenu &Menu){
 
 	if (windowResized) {
 		background.setScale(
@@ -85,7 +84,6 @@ void drawOn(sf::RenderWindow &window, sf::Sprite &background, NewHand Players[],
 	Wastepile.drawOn(window);
 	Players[0].drawOn(window);
 	Players[1].drawOn(window);
-
-	window.display();
+	Menu.drawOn(window);
 
 }

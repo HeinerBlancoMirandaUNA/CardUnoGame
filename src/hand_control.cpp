@@ -12,6 +12,13 @@ HandControl::~HandControl()
 
 };
 
+void HandControl::reset(){
+	StorageInteraction::reset();
+	isReady = true;
+	lastCardWasZero = false;
+
+};
+
 bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse) {
 
 	Choice current;
@@ -174,15 +181,15 @@ Choice HandControl::human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Ve
 	int thisCard = 0;
 	if (click > 0) {thisCard = hitbox(mouse);}
 
-	if ((click == 1)&&(thisCard > -1)) {
+	if (click == 1&&thisCard > -1) {
 		return {1,thisCard};
 	}
 
-	if ((click == 2)&&(thisCard > -1)) {
+	if (click == 2&&thisCard > -1) {
 		return {2,thisCard};
 	}
 
-	if ((click == 1)&&Wastepile.hitbox(mouse)) {
+	if (click == 1&&Wastepile.hitbox(mouse)) {
 		return {3,0};
 	}
 
@@ -190,7 +197,7 @@ Choice HandControl::human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Ve
 		return {3,0};
 	}
 
-	if ((click == 1)&&Deck.hitbox(mouse)) {
+	if (click == 1&&Deck.hitbox(mouse)) {
 		return {4,0};
 	}
 

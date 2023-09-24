@@ -1,22 +1,18 @@
 #include "new_hand.h"
 
-NewHand::NewHand(float yPosP) : HandControl() {
-
-	yPos = yPosP;
-	adjustTop = false;
-
-}
-
-NewHand::NewHand(sf::RenderWindow &window, bool adjustTopP) : HandControl() {
-
-	adjustTop = adjustTopP;
-	refreshPos(window);
-
+NewHand::NewHand() : HandControl() {
+	//Dummy;
 }
 
 NewHand::~NewHand(){
 	cout<<"Hand Destroyed"<<endl;
 }
+
+void NewHand::init(sf::RenderWindow &window, bool adjustTopP) {
+	adjustTop = adjustTopP;
+	refreshPos(window);
+
+};
 
 void NewHand::drawOn (sf::RenderWindow &window){ // Draws all of it's cards on the screen
 	if (refresh){refreshPos();}
