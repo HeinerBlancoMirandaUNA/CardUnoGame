@@ -8,17 +8,16 @@
 #include "./include/new_deck.h"
 #include "./include/hand_control.h"
 #include "./include/new_hand.h"
-#include "./include/menu.h"
-#include "./user_interaction.hpp"
-#include "./player_turn.hpp"
+#include "./include/game_ui.h"
+#include "./include/user_interaction.h"
+#include "./include/player_turn.h"
 
 
 int main(int argc, char* argv[])
 {
     // Program Initialization
-    loadTextStrings();
 
-    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), info[0]);
+    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "");
 
 	if (argc > 1 && (!strcmp(argv[1],"-fullscreen")) ){
 		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode()), "", sf::Style::None);
@@ -30,19 +29,20 @@ int main(int argc, char* argv[])
     sf::Sprite background;
     background.setTexture(backgroundTexture);
 
-    sf::Texture menuTexture;
-    menuTexture.loadFromFile("./resources/menu.png");
-    GameMenu Menu(menuTexture);
+    sf::Texture dialogTexture;
+    dialogTexture.loadFromFile("./resources/ui.png");
+    GameUI UserInterface(dialogTexture);
 
     sf::Texture unoCards;
     unoCards.loadFromFile("./resources/unocards.png");
     unoCards.setSmooth(true);
 
     srand (time(NULL));
+
+
+	// Initializing Game Objects And Variables
+
 	NewHand Players[2];
-
-	// Initializing Game Objects
-
 	Players[0].init(window,false);
 	Players[1].init(window,true);
 
@@ -51,20 +51,22 @@ int main(int argc, char* argv[])
 
 	newGame(Players, Deck, Wastepile, window, unoCards, 1);
 
+	UserInterface.dialog = 4;
+
     // Game Loop
 
     while (window.isOpen()){
 
         sf::Event event;
-        playerInput(event,window,Menu);
+        playerInput(event,window,UserInterface);
 
-        if (Menu.event > 0) {
-			newGame(Players, Deck, Wastepile, window, unoCards, Menu.event);
+        if (UserInterface.event > 0) {
+			newGame(Players, Deck, Wastepile, window, unoCards, UserInterface.event);
         }
 
-        thisTurn(Players,Deck,Wastepile);
+        thisTurn(Players,Deck,Wastepile,UserInterface);
 
-        drawOn(window,background,Players,Deck,Wastepile,Menu);
+        drawOn(window,background,Players,Deck,Wastepile,UserInterface);
 
         window.display();
 
