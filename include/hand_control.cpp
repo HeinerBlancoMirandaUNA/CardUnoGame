@@ -221,6 +221,8 @@ Choice HandControl::cpuPlayer (NewDeck &Deck, NewDeck &Wastepile){
 
 	MakeCard myCard = getCard();
 
+	if (myCard.isWild()&&myCard.getColor()>0) { return {1,lastCard()};}
+
 	for (int i = 0;i < lastCard()+1; i++) {
 
 		myCard = getCard(i);
