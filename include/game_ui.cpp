@@ -35,7 +35,6 @@ void GameUI::drawUnoButton(sf::RenderWindow &window){
 	sprite.setColor(sf::Color(255,255,255,255));
 
 	window.draw(sprite);
-	std::cout<<wasPressed<<std::endl;
 
 }
 

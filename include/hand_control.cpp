@@ -64,7 +64,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 	}
 
     if (current.action == 2) {
-		//colorWild(current.card);
+
 		if (Cards[current.card].getColor() > 0 ) {colorWild(current.card);}
 		else {Cards[current.card].colorWild(mostCommonColor());}
 		bringToFront(current.card);
