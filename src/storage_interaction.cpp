@@ -2,12 +2,12 @@
 
 StorageInteraction::StorageInteraction()
 {
-	cout<<"Inheritance Successful"<<endl;
+
 }
 
 StorageInteraction::~StorageInteraction()
 {
-	cout<<"StorageInteraction - Destruction Successful"<<endl;
+
 }
 
 void StorageInteraction::reset(){

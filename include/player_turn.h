@@ -55,8 +55,19 @@ void thisTurn(NewHand Players[], NewDeck &Deck, NewDeck &Wastepile, GameUI &User
 		if (Player.isHuman) { UserInterface.dialog = turn+1;}
 	}
 
+	bool unoNotPressed = false;
+
     if (playerIsOver) {
+		unoNotPressed = !UserInterface.unoWasPressed()&&Player.isHuman&&Player.lastCard()==0;
+
+		if (!Deck.isEmpty()&&unoNotPressed) {Player.addCard(Deck.grabCard());}
+		if (!Deck.isEmpty()&&unoNotPressed) {Player.addCard(Deck.grabCard());}
+
 		switchTurn(Players); Deck.enableAll();
+		UserInterface.resetUnoButton(Players[turn].isHuman);
+
 	}
+
+
 
 }

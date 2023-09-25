@@ -6,7 +6,7 @@ void NewDeck::createCard (int cardNum, sf::Texture &texture){
 }
 
 NewDeck::~NewDeck(){
-	cout<<"Deck Destroyed"<<endl;
+
 }
 
 void NewDeck::reset(){
@@ -73,7 +73,7 @@ void NewDeck::drawOn (sf::RenderWindow &window) { // Draws only the last 4 cards
 	}
 
 	if (autoPurge && (Cards.size() > 5)) {eraseCard(Cards.size() - 5);} // Erase previously used cards
-	//cout<<cardCount<<endl;
+
 }
 
 void NewDeck::refreshPos() { // Aligns the last 4 cards, resembles the look of a card deck...

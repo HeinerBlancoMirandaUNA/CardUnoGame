@@ -46,8 +46,8 @@ int main(int argc, char* argv[])
 	Players[0].init(window,false);
 	Players[1].init(window,true);
 
-    NewDeck Deck(-55,50,unoCards,window);
-    NewDeck Wastepile(55,50,window);
+    NewDeck Deck(-125,40,unoCards,window);
+    NewDeck Wastepile(125,40,window);
 
 	newGame(Players, Deck, Wastepile, window, unoCards, 1);
 
@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
 
         if (UserInterface.event > 0) {
 			newGame(Players, Deck, Wastepile, window, unoCards, UserInterface.event);
+			UserInterface.resetUnoButton(Players[turn].isHuman);
         }
 
         thisTurn(Players,Deck,Wastepile,UserInterface);

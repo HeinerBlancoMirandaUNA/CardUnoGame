@@ -2,13 +2,11 @@
 
 HandControl::HandControl() : StorageInteraction()
 {
-	cout<<"^^^^^^HandControl"<<endl;
 
 };
 
 HandControl::~HandControl()
 {
-	cout<<"^^^^^^HandControl"<<endl;
 
 };
 

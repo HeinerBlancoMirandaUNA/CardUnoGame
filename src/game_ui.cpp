@@ -7,7 +7,10 @@ GameUI::GameUI(sf::Texture &texture)
 	dialog = 0;
 	dialogX = 0;
 	dialogY = 0;
+	divider = 0;
 	lastGameMode = 0;
+	humanPlayer = true;
+	wasPressed = false;
 
 }
 
@@ -16,7 +19,27 @@ GameUI::~GameUI()
 
 }
 
-void GameUI::drawOn(sf::RenderWindow &window) {
+void GameUI::drawUnoButton(sf::RenderWindow &window){
+
+	unoButtonX =(window.getSize().x/2)-78;
+	unoButtonY =(window.getSize().y/2)-40;
+	sprite.setTextureRect(sf::IntRect(0,957,135,149));
+
+	sprite.setPosition(unoButtonX,unoButtonY);
+	sprite.move( (145 / divider) -10, 20 / divider);
+	sprite.setColor(sf::Color(10,10,10,(9*divider)+35));
+	window.draw(sprite);
+
+	sprite.setPosition(unoButtonX,unoButtonY);
+	sprite.move( -25 / divider, -25 / divider);
+	sprite.setColor(sf::Color(255,255,255,255));
+
+	window.draw(sprite);
+	std::cout<<wasPressed<<std::endl;
+
+}
+
+void GameUI::drawGui(sf::RenderWindow &window) {
 
 	sprite.setPosition(0,0);
 	sprite.setOrigin(0,0);
@@ -87,15 +110,48 @@ void GameUI::hitbox(sf::Vector2f &mouse, int &click){
 		}
 	}
 
-	bool buttonPressed = click == 1&&
+	bool closeDialog= click == 1&&
 	(mouse.x > dialogX +76) && ( mouse.x < dialogX + 150)&&
 	(mouse.y > dialogY +63) && ( mouse.y < dialogY + 85);
 
 	if (dialog > 0) {
-		if (buttonPressed) {dialog = 0; event = lastGameMode;}
+		if (closeDialog) {dialog = 0; event = lastGameMode; }
 
 		click = 0;
 	}
+
+	if (!humanPlayer) {divider = 10;}
+
+	bool isTouchingButton =
+	(mouse.x > unoButtonX+15) && ( mouse.y > unoButtonY)&&
+	(mouse.x < unoButtonX+115) && ( mouse.y < unoButtonY+85);
+
+	if (isTouchingButton) {
+
+		if (click == 1) {
+			divider = 10;
+			wasPressed = true;
+			return;
+		}
+
+		if (divider > 4) {divider--;}
+
+
+	} else {
+
+		if (divider < 10) {divider++;}
+
+	}
+
+}
+
+bool GameUI::unoWasPressed(){
+	return wasPressed;
+}
+
+void GameUI::resetUnoButton(bool isHuman){
+	wasPressed = false;
+	humanPlayer = isHuman;
 
 }
 

@@ -66,10 +66,11 @@ void drawOn(sf::RenderWindow &window, sf::Sprite &background, NewHand Players[],
 
 	window.clear();
 	window.draw(background);
+	UserInterface.drawUnoButton(window);
 	Deck.drawOn(window);
 	Wastepile.drawOn(window);
 	Players[0].drawOn(window);
 	Players[1].drawOn(window);
-	UserInterface.drawOn(window);
+	UserInterface.drawGui(window);
 
 }

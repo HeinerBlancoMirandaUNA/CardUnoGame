@@ -1,11 +1,11 @@
 #include "new_hand.h"
 
 NewHand::NewHand() : HandControl() {
-	//Dummy;
+
 }
 
 NewHand::~NewHand(){
-	cout<<"Hand Destroyed"<<endl;
+
 }
 
 void NewHand::init(sf::RenderWindow &window, bool adjustTopP) {

@@ -10,16 +10,20 @@ public:
 
 	GameUI(sf::Texture &texture);
 	virtual ~GameUI();
-	void drawOn(sf::RenderWindow &window);
+	void drawGui(sf::RenderWindow &window);
+	void drawUnoButton(sf::RenderWindow &window);
 	void hitbox(sf::Vector2f &mouse, int &click);
 	int dialog;
 	int event;
+	bool unoWasPressed();
+	void resetUnoButton(bool isHuman);
 
 private:
 	bool isOpen;
 	float ySelection;
-	int dialogX;
-	int dialogY;
+	int dialogX,dialogY,unoButtonX,unoButtonY, divider;
+	bool wasPressed;
+	bool humanPlayer;
 	int lastGameMode;
 	sf::Sprite sprite;
 
