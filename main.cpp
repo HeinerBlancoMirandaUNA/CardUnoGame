@@ -60,7 +60,6 @@ int main(int argc, char* argv[])
 
         if (Menu.event > 0) {
 			newGame(Players, Deck, Wastepile, window, unoCards, Menu.event);
-
         }
 
         thisTurn(Players,Deck,Wastepile);

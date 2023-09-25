@@ -210,7 +210,7 @@ Choice HandControl::human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Ve
 }
 
 Choice HandControl::cpuPlayer (NewDeck &Deck, NewDeck &Wastepile){
-	//std::cout<<"Cpu";
+
 	cpuTimer++;
 	int delay = 60;
 	if (cpuTimer < delay){
@@ -218,109 +218,67 @@ Choice HandControl::cpuPlayer (NewDeck &Deck, NewDeck &Wastepile){
 	}
 	cpuTimer = 0;
 
-
 	int colorToSwitch = mostCommonColor();
 	MakeCard last = Wastepile.getCard();
 
-	//If i have a wild card
+	MakeCard myCard = getCard();
 
 	for (int i = 0;i < lastCard()+1; i++) {
 
-		bool isValid = getCard(i).enable && (
-		getCard(i).getType() == 'M'&&
-		getCard(i).getColor() != mostCommonColor()&&
-		getCard(i).getColor() == 0
-		);
+		myCard = getCard(i);
 
-		if (isValid) {
-			cout<<"SWITCH COLOR "<<i<<endl;
-			return {2, i};
-		}
+		bool itsAPlusFourCard = myCard.enable && myCard.getType() == 'M';
 
-	}
-
-	// If i have a +4 Wild Card with a color assigned
-
-	for (int i = 0;i < lastCard()+1; i++) {
-
-		bool isValid =
-		getCard(i).enable && (
-		getCard(i).getColor() == colorToSwitch &&
-		getCard(i).getType() == 'M'&&
-		last.getColor() != 0
-		);
-
-
-		if (isValid) {
-			cout<<"TAKE THAT! "<<i<<endl;
-			//cpuTimer = (delay / 4) * 3;
+		if (itsAPlusFourCard) {
+			if (myCard.getColor() == 0) {return {2, i};}
 			return {1, i};
 		}
 
 	}
 
-	// If it's the same color but not wild
-
 	for (int i = 0;i < lastCard()+1; i++) {
 
-		bool isValid =
-		getCard(i).enable && (
-		(getCard(i).getColor() == last.getColor()&&
-		!getCard(i).isWild())||
-		last.getColor() == 0
-		);
-
-		if (isValid) {
-			cout<<"TROW COLOR "<<i<<endl;
-			//cpuTimer = (delay / 4) * 3;
-			return {1, i};
-		}
+		myCard = getCard(i);
+		bool itsTheSameCardColor = myCard.enable && (myCard.getColor() == last.getColor());
+		if (itsTheSameCardColor) {return {1, i};}
 
 	}
 
-	// Don't have the same color, only simple Wild Card
-
 	for (int i = 0;i < lastCard()+1; i++) {
 
-		bool isValid =
+		bool istAColorWildCard =
 		getCard(i).enable && (
-
-		getCard(i).getType() == 'W'&&
-
-		last.getColor() != 0
+		getCard(i).getType() == 'W'
 		);
 
-		if (isValid) {
-			cout<<"TROW SIMPLE WILD "<<i<<endl;
-			//cpuTimer = (delay / 4) * 3;
+		if (istAColorWildCard) {
 			if (getCard(i).getColor() > 0) {return {1, i};}
-			else {if (last.getColor() != getCard().getColor()) return {2, i};}
+			if (last.getColor() != getCard().getColor()) {return {2, i};}
 		}
 
 	}
 
-	//If i have the same type
+
 
 	for (int i = 0;i < lastCard()+1; i++) {
 
-		bool isValid =
+		bool itsTheSameCardType =
 		getCard(i).enable && (
-		getCard(i).getType() == last.getType());
+		(getCard(i).getType() == last.getType())||
+		last.getColor() == 0); // Throws card anyway if it doesn't have a color assigned
 
-		if (isValid) {
-			cout<<"TROW (TYPE)"<<i<<endl;
-			return {1, i};
-		}
+		if (itsTheSameCardType) {return { 1, i };}
 
 	}
 
 
-	if (!Deck.isEmpty()) {
-		cout<<"EAT"<<endl;
+	if (!Deck.isEmpty()&&!isFull()) {
+
+		cpuTimer = cpuTimer + (delay/3);
 		return {4,0};
+
 	}
 
-	cout<<"PASS"<<endl;
 	return {3,0};
 }
 
@@ -343,10 +301,7 @@ int HandControl::mostCommonColor(){
 
 	if (largest == 0) { largest= 1 + rand()%4;}
 
-	cout<<"LARGEST = "<<largest<<endl;
 	return largest;
-
-
 
 }
 
