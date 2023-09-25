@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     srand (time(NULL));
 	NewHand Players[2];
 
-	// Game Objects
+	// Initializing Game Objects
 
 	Players[0].init(window,false);
 	Players[1].init(window,true);
@@ -68,7 +68,6 @@ int main(int argc, char* argv[])
         drawOn(window,background,Players,Deck,Wastepile,Menu);
 
         window.display();
-
 
     }
     return 0;

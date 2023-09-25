@@ -25,6 +25,7 @@ public:
     int getColor ();
     char getType();
     void colorWild();
+    void colorWild(int thisColor);
     bool isWild();
 
 protected:

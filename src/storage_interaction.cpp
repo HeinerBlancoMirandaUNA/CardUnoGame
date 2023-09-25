@@ -12,7 +12,7 @@ StorageInteraction::~StorageInteraction()
 
 void StorageInteraction::reset(){
 
-	while (lastCard()>-1) {eraseCard(0);}
+	while (!isEmpty()) {eraseCard(0);}
 
 }
 
@@ -81,6 +81,10 @@ void StorageInteraction::hide(){
 void StorageInteraction::show(){
 	for (int i = 0; i < Cards.size(); i++) {Cards[i].show();hidden = false;}
 	hidden = false;
+}
+
+bool StorageInteraction::isEmpty(){
+	return Cards.empty();
 }
 
 

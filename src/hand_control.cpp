@@ -16,6 +16,7 @@ void HandControl::reset(){
 	StorageInteraction::reset();
 	isReady = true;
 	lastCardWasZero = false;
+	cpuTimer = 1;
 
 };
 
@@ -30,7 +31,8 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 		Wastepile.resetCount();
 		if (Deck.getCardCount() > 0) {
 			disableAllButDraw(Wastepile.getCard());
-			if (isFull()&&noMovementsLeft()) { enableAll(); Deck.resetCount(); }
+			bool canIeat =(isFull()&&noMovementsLeft())||Deck.isEmpty();
+			if (canIeat) { enableAll(); Deck.resetCount(); }
 		}
 		isReady = false;
 	}
@@ -38,7 +40,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 	if (isFull()) {Deck.disableAll();}
 
 	if (isHuman) { current = human(Deck,Wastepile,click,mouse); }
-	else { current = cpuPlayer(Deck); }
+	else { current = cpuPlayer(Deck,Wastepile); }
 
 	if (current.action == 1) {
 
@@ -64,7 +66,9 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 	}
 
     if (current.action == 2) {
-		colorWild(current.card);
+		//colorWild(current.card);
+		if (Cards[current.card].getColor() > 0 ) {colorWild(current.card);}
+		else {Cards[current.card].colorWild(mostCommonColor());}
 		bringToFront(current.card);
     }
 
@@ -112,6 +116,7 @@ void HandControl::eatCards(NewDeck &Deck, NewDeck &Wastepile){
 	if (Deck.getCardCount() == 0){
 
 		if (isFull()) { return; }
+		if (!Deck.getCard().enable) { return; }
 		addCard(Deck.grabCard());
 		Wastepile.increaseCountBy(1);
 
@@ -204,14 +209,145 @@ Choice HandControl::human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Ve
 	return {0,0};
 }
 
-Choice HandControl::cpuPlayer (NewDeck &Deck){
+Choice HandControl::cpuPlayer (NewDeck &Deck, NewDeck &Wastepile){
 	//std::cout<<"Cpu";
 	cpuTimer++;
-	if (cpuTimer < 30){
+	int delay = 60;
+	if (cpuTimer < delay){
 		return {0,0};
 	}
 	cpuTimer = 0;
+
+
+	int colorToSwitch = mostCommonColor();
+	MakeCard last = Wastepile.getCard();
+
+	//If i have a wild card
+
+	for (int i = 0;i < lastCard()+1; i++) {
+
+		bool isValid = getCard(i).enable && (
+		getCard(i).getType() == 'M'&&
+		getCard(i).getColor() != mostCommonColor()&&
+		getCard(i).getColor() == 0
+		);
+
+		if (isValid) {
+			cout<<"SWITCH COLOR "<<i<<endl;
+			return {2, i};
+		}
+
+	}
+
+	// If i have a +4 Wild Card with a color assigned
+
+	for (int i = 0;i < lastCard()+1; i++) {
+
+		bool isValid =
+		getCard(i).enable && (
+		getCard(i).getColor() == colorToSwitch &&
+		getCard(i).getType() == 'M'&&
+		last.getColor() != 0
+		);
+
+
+		if (isValid) {
+			cout<<"TAKE THAT! "<<i<<endl;
+			//cpuTimer = (delay / 4) * 3;
+			return {1, i};
+		}
+
+	}
+
+	// If it's the same color but not wild
+
+	for (int i = 0;i < lastCard()+1; i++) {
+
+		bool isValid =
+		getCard(i).enable && (
+		(getCard(i).getColor() == last.getColor()&&
+		!getCard(i).isWild())||
+		last.getColor() == 0
+		);
+
+		if (isValid) {
+			cout<<"TROW COLOR "<<i<<endl;
+			//cpuTimer = (delay / 4) * 3;
+			return {1, i};
+		}
+
+	}
+
+	// Don't have the same color, only simple Wild Card
+
+	for (int i = 0;i < lastCard()+1; i++) {
+
+		bool isValid =
+		getCard(i).enable && (
+
+		getCard(i).getType() == 'W'&&
+
+		last.getColor() != 0
+		);
+
+		if (isValid) {
+			cout<<"TROW SIMPLE WILD "<<i<<endl;
+			//cpuTimer = (delay / 4) * 3;
+			if (getCard(i).getColor() > 0) {return {1, i};}
+			else {if (last.getColor() != getCard().getColor()) return {2, i};}
+		}
+
+	}
+
+	//If i have the same type
+
+	for (int i = 0;i < lastCard()+1; i++) {
+
+		bool isValid =
+		getCard(i).enable && (
+		getCard(i).getType() == last.getType());
+
+		if (isValid) {
+			cout<<"TROW (TYPE)"<<i<<endl;
+			return {1, i};
+		}
+
+	}
+
+
+	if (!Deck.isEmpty()) {
+		cout<<"EAT"<<endl;
+		return {4,0};
+	}
+
+	cout<<"PASS"<<endl;
 	return {3,0};
+}
+
+int HandControl::mostCommonColor(){
+
+	int color[5];
+	for (int i = 0; i < 5; i++){color[i] = 0;}
+
+	for (int i = 0; i < lastCard()+1; i++) {
+		for (int j = 0; j < 5; j++){
+			if (getCard(i).getColor() == j&&!getCard(i).isWild()) {color[j]++;}
+		}
+
+	}
+
+	int largest = color[0];
+	for (int i = 0; i < 5; i++){
+		if (color[i] > color[largest]){ largest = i; }
+	}
+
+	if (largest == 0) { largest= 1 + rand()%4;}
+
+	cout<<"LARGEST = "<<largest<<endl;
+	return largest;
+
+
+
 }
 
 

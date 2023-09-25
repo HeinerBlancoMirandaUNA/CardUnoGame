@@ -12,13 +12,14 @@ class StorageInteraction // STORAGE_INTERACTION_H
 	protected:
 		float yPos;
 		bool refresh = false;
-		bool hidden = true;
+
 		float windowWidth;
 		std::vector <MakeCard> Cards;
 
 	public:
 		StorageInteraction();
 		virtual ~StorageInteraction();
+		bool hidden = true;
 		void reset();
 		int lastCard();
 		MakeCard getCard(int toGet);
@@ -34,6 +35,7 @@ class StorageInteraction // STORAGE_INTERACTION_H
 		void bringToFront (int toBring) ;
 		void hide();
 		void show();
+		bool isEmpty();
 
 };
 

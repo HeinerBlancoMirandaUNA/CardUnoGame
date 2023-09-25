@@ -146,6 +146,15 @@ void MakeCard::colorWild() { // Change Wild Card Color
 
 }
 
+void MakeCard::colorWild(int thisColor){
+
+	if (!isWild()) { return; }
+	while (thisColor != getColor()){
+		colorWild();
+	}
+
+};
+
 bool MakeCard::isWild(){
 	if ((getType()=='M')||(getType()=='W')) {return true;}
 	return false;
