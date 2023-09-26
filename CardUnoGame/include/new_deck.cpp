@@ -85,7 +85,7 @@ void NewDeck::refreshPos() { // Aligns the last 4 cards, resembles the look of a
 	int i = 0;
 	if (Cards.size() > 4) {i = Cards.size() - 4;}
 
-	for (int j; j < i; j++){
+	for (int j = 0; j < i; j++){
 		Cards[j].xPos = xPosP; Cards[j].yPos = yPosP;
 	}
 

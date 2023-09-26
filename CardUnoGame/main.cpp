@@ -12,6 +12,7 @@
 #include "./include/user_interaction.h"
 #include "./include/player_turn.h"
 
+// WARNING: Debug build is broken, select Release instead to get a working executable
 
 int main(int argc, char* argv[])
 {
