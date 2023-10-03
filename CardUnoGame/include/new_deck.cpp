@@ -21,6 +21,7 @@ NewDeck::NewDeck (float xPosP, float yPosP,sf::Texture &texture,sf::RenderWindow
 	autoPurge = false;
 	resetCount();
 	rebuildCardset(texture, window); //  This has to stay here, otherwise it will crash
+	//Comentario innecesario, es igual lo otro de arriba, si no lo colocas se daña el proyecto
 
 }
 

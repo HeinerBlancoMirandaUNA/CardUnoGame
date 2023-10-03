@@ -30,6 +30,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 		if (Deck.getCardCount() > 0) {
 			disableAllButDraw(Wastepile.getCard());
 			bool canIeat =(isFull()&&noMovementsLeft())||Deck.isEmpty();
+			//Evite anidaciones complejas
 			if (canIeat) { enableAll(); Deck.resetCount(); }
 		}
 		isReady = false;
@@ -46,7 +47,7 @@ bool HandControl::isActive (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::V
 		if (!isFull()) {Deck.enableAll();}
 
 		MakeCard last = getCard(current.card);
-
+//Evite anidaciones complejas
 		if (!(Wastepile.getCard().getColor()==last.getColor())) {endTurn = true;}
 
 		if (last.getType()=='M') { Deck.increaseCountBy(4); Wastepile.resetCount(); }
@@ -121,6 +122,7 @@ void HandControl::eatCards(NewDeck &Deck, NewDeck &Wastepile){
 	} else {
 
 		for (int i=0; i < Deck.getCardCount() ; i++){
+			//Evite anidaciones complejas
 			if (isFull()) { return; }
 			addCard(Deck.grabCard()); }
 
@@ -144,6 +146,7 @@ void HandControl::disableAllButDraw(MakeCard last) {
 		}
 
 		if (last.getType()=='M'){
+			//Evite anidaciones complejas
 			if (Cards[i].getColor()==last.getColor()&&Cards[i].getType()=='D') { disableThis = false; }
 		}
 
@@ -183,7 +186,7 @@ int HandControl::hitbox (sf::Vector2f mouse){ // Checks hitbox against all cards
 Choice HandControl::human (NewDeck &Deck, NewDeck &Wastepile, int &click, sf::Vector2f mouse){
 	int thisCard = 0;
 	if (click > 0) {thisCard = hitbox(mouse);}
-
+//Utilice un arreglo de valores
 	if (click == 1&&thisCard > -1) {
 		return {1,thisCard};
 	}
@@ -289,6 +292,7 @@ int HandControl::mostCommonColor(){
 
 	for (int i = 0; i < lastCard()+1; i++) {
 		for (int j = 0; j < 5; j++){
+			//Evite anidaciones complejas
 			if (getCard(i).getColor() == j&&!getCard(i).isWild()) {color[j]++;}
 		}
 

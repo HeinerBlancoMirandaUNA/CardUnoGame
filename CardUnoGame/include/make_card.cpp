@@ -83,7 +83,7 @@ void MakeCard::initAnim(unsigned int ticksP,float xAnimP,float yAnimP,float acce
     yAnim = yAnimP;                 // New Y position for Sprite
     acceleration = accelerationP;   // Acceleration (Use any float greater than 1 for normal acceleration, decimals lower than 1 to disable Slow Out, 1 for no acceleration, 0 to disable animation)
     animRunning = true;
-
+// parece codigo comentado de chatgpt
 }
 
 bool MakeCard::isMoving() { //Use this one to check if movement animation is playing

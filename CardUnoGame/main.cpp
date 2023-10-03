@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 	UserInterface.dialog = 4;
 
     // Game Loop
-
+//Evitar los comentarios, mejor extraer en funciones
     while (window.isOpen()){
 
         sf::Event event;

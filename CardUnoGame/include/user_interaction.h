@@ -16,13 +16,15 @@ void playerInput(sf::Event &event, sf::RenderWindow &window, GameUI &UserInterfa
 
     while (window.pollEvent(event)) {
 		if (event.type == sf::Event::MouseButtonPressed) {
+
+			//Evite anidaciones complejas
 			if (event.mouseButton.button == sf::Mouse::Left) { click = 1;}
 			if (event.mouseButton.button == sf::Mouse::Right) { click = 2; }
 			if (event.mouseButton.button == sf::Mouse::Middle) { click = 3; }
 		}
 
 		if (event.type == sf::Event::KeyPressed){
-
+//Evite anidaciones complejas
 			if (event.key.code == sf::Keyboard::Escape){ window.close(); }
 			if (event.key.code == sf::Keyboard::F1){ fn = '1'; }
 			if (event.key.code == sf::Keyboard::F2){ fn = '2'; }
